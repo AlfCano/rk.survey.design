@@ -1,0 +1,31 @@
+<!DOCTYPE rkplugin>
+<document>
+    <code file="survey_design.js"/>
+    <help file="survey_design.rkh"/>
+
+    <dialog label="Crear Diseño de Encuesta Compleja">
+        <tabbook>
+            <tab label="Configuración del Diseño">
+                <row>
+                    <varselector id="dataframe" label="Datos (data.frame)" required="true" classes="data.frame"/>
+                </row>
+                <row>
+                    <varslot id="weight_var" label="Variable de Peso" source="dataframe" required="true"/>
+                    <varslot id="strata_var" label="Variable de Estrato (opcional)" source="dataframe" required="false"/>
+                    <varslot id="id_var" label="Variable de ID (opcional)" source="dataframe" required="false"/>
+                </row>
+            </tab>
+            <tab label="Opciones de Salida">
+                <!-- 
+                    REEMPLAZAMOS TODA LA LÓGICA ANTERIOR CON ESTE ÚNICO COMPONENTE.
+                    'checkable="false"' significa que guardar no es opcional, que es lo que queremos.
+                    Esto nos dará el campo de texto, el selector de entorno y la casilla de sobrescribir,
+                    todo con la lógica de validación ya incorporada.
+                -->
+                <row>
+                    <saveobject id="save_survey" label="Guardar objeto de diseño" checkable="false" initial="design.svy"/>
+                </row>
+            </tab>
+        </tabbook>
+    </dialog>
+</document>

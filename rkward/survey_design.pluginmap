@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rkpluginmap>
+<document
+  namespace="rk.survey.design"
+  id="SurveyDesign_rkward"
+  priority="medium"
+>
+
+    <!--
+        Metadatos del complemento.
+        El 'id' aquí es el que se muestra en el gestor de complementos.
+    -->
+    <about
+        name="Crear Diseño de Encuesta (Paquete Survey)"
+        id="rk.survey.design"
+        author="Alfonso Cano"
+        version="0.1.2"
+        shortinfo="Un complemento para crear un objeto de diseño de encuesta (svydesign)."
+    />
+
+    <!--
+        Dependencias explícitas.
+        Informa a RKWard que este complemento requiere el paquete 'survey'.
+    -->
+    <dependencies>
+        <package name="survey" />
+    </dependencies>
+
+    <!--
+        Definición del componente de la interfaz gráfica.
+    -->
+    <components>
+        <component
+            id="create_survey_design_component"
+            type="rkplugin"
+            file="survey_design.xml"
+            label="Crear Diseño de Encuesta" />
+    </components>
+
+    <!--
+        Ubicación del componente en la jerarquía del menú de RKWard.
+    -->
+    <hierarchy>
+        <menu id="data">
+            <entry component="create_survey_design_component" />
+        </menu>
+    </hierarchy>
+
+</document>
