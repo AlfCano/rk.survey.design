@@ -25,6 +25,7 @@ Cómo Funciona Este Archivo
 Pasos Finales para la Instalación
 Ahora tu carpeta de plug-in está completa. La estructura debería verse así:
 
+```
 rk.survey.design/
 ├── DESCRIPTION
 ├── README
@@ -34,6 +35,7 @@ rk.survey.design/
     ├── survey_design.js
     ├── survey_design.rkh
     └── survey_design.pluginmap
+```
 
 
 Para instalarlo en RKWard:
