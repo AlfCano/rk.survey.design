@@ -1,0 +1,77 @@
+<!DOCTYPE
+	rkpluginmap
+>
+<document
+	base_prefix=""
+	namespace="rksurveydesign"
+	id="rksurveydesign_rkward"
+	po_id="rksurveydesign_rkward"
+	priority="medium"
+>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<about
+		name="rk.survey.design"
+		shortinfo="Plugin para el diseño de encuestas complejas"
+		longinfo="Plugin para el diseño de encuestas complejas"
+		version="0.2.8"
+		releasedate="2025-08-11"
+		url="https://github.com/AlfCano/rk.survey.design"
+		license="GPL (&gt;= 3)"
+	>
+		<author
+			given="Alfonso"
+			family="Cano"
+			email="alfonso.cano@correo.buap.mx"
+			role="aut, cre"
+		/>
+	</about>
+	<require
+		map="rkward::menu"
+	/>
+	<require
+		map="rkward::embedded"
+	/>
+	<components>
+		<component
+			id="cmp_rksurveydesignrksurvydsgn"
+			label="rk.survey.design"
+			type="standard"
+			file="plugins/rk.survey.design.xml"
+		>
+		</component>
+	</components>
+	<hierarchy>
+		<menu
+			id="men_Survey"
+			label="Survey"
+		>
+			<menu
+				id="men_CrtSrvyDsg"
+				label="Create Survey Design"
+			>
+				<entry
+					component="cmp_rksurveydesignrksurvydsgn"
+				/>
+			</menu>
+		</menu>
+	</hierarchy>
+	<!--
+		<context
+			id="x11"
+		>
+		</context>
+	-->
+	<!--
+		<context
+			id="import"
+		>
+		</context>
+	-->
+</document>

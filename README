@@ -1,36 +1,16 @@
+# rk.survey.design
+
+EN: This plugin will generate and execute the R code needed to create a `survey.design` object based on your selections, and display a summary of the design object in the RKWard results window.
+
+ES: Este plug-in generará y ejecutará el código R necesario para crear un objeto `survey.design` basado en tus selecciones, y mostrará un resumen del objeto de diseño en la ventana de resultados de RKWard.
+
 ### Cómo Instalar el Plug-in
-
-1.  Localiza el directorio de plug-ins de RKWard. Generalmente se encuentra en la carpeta de instalación de RKWard o en una carpeta de configuración del usuario.
-2.  Dentro del directorio de plug-ins, crea una nueva carpeta llamada `rk.survey.design`.
-3.  Guarda los cuatro archivos (`survey_design.pluginmap`, `survey_design.xml`, `survey_design.js` y `survey_design.rkh`) dentro de una carpeta llamada `rkward`.
-4.  Reinicia RKWard.
-
-Después de reiniciar, deberías encontrar una nueva entrada en el menú de RKWard (probablemente en "Análisis" -> "Encuestas" o similar, dependiendo de la configuración de tu menú) que te permitirá abrir el diálogo para crear tu diseño de encuesta.
-
-Este plug-in generará y ejecutará el código R necesario para crear un objeto `survey.design` basado en tus selecciones, y mostrará un resumen del objeto de diseño en la ventana de resultados de RKWard.
-
-Cómo Funciona Este Archivo
-<components>: Esta sección le dice a RKWard qué archivos XML definen las interfaces de tu plug-in. En este caso, es solo survey_design.xml. Le asignamos un id único ("create_survey_design") y una label (etiqueta) que es el texto que aparecerá en el menú.
-<hierarchy>: Esta sección define la estructura del menú.
-<menu id="data">: Le estamos diciendo a RKWard que queremos añadir algo al menú principal cuyo identificador es "data". Este es el ID interno de RKWard para el menú "Datos".
-<entry component="create_survey_design" />: Aquí es donde colocamos nuestro componente, identificado por su id, dentro del menú "Datos".
-Pasos Finales para la Instalación
-Ahora tu carpeta de plug-in está completa. La estructura debería verse así:
-
-rk.survey.design/
-├── DESCRIPTION
-├── README
-├── NAMESPACE
-├── rkward/
-    ├── survey_design.xml
-    ├── survey_design.js
-    ├── survey_design.rkh
-    └── survey_design.pluginmap
-
-
 Para instalarlo en RKWard:
 1. Abre RKWard.
 2. Ve al menú "Settings" (Configuración) y selecciona "Manage plugins" (Gestionar complementos).
 3. En la ventana que aparece, haz clic en "Install/Update from .pluginmap file..." (Instalar/Actualizar desde archivo .pluginmap...).
-4. Navega hasta tu carpeta rk.survey.design y selecciona el archivo survey_design.pluginmap.
+4. Navega hasta tu carpeta rk.survey.design y selecciona el archivo `rk.survey.design.pluginmap`.
 5. RKWard instalará el plug-in. Es posible que necesites reiniciar RKWard para que los cambios surtan efecto.
+
+
+Después de reiniciar, deberías encontrar una nueva entrada en el menú de RKWard (probablemente en "Survey" -> "Create Survey Design" -> "rk.survey.design" o similar, dependiendo de la configuración de tu menú) que te permitirá abrir el diálogo para crear tu diseño de encuesta.

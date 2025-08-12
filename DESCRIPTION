@@ -1,13 +1,15 @@
 Package: rk.survey.design
 Type: Package
-Title: Plugin para Survey Design y Análisis de Encuestas Complejas
-Version: 0.1.2 
-Date: 2025-07-26
+Title: Plugin para el diseño de encuestas complejas
+Version: 0.2.8
+Date: 2025-08-11
 Author: Alfonso Cano
 Maintainer: Alfonso Cano <alfonso.cano@correo.buap.mx>
-Suggests: survey
 Enhances: rkward
-Description: Un complemento para RKWard que facilita la creación de un objeto de diseño de encuesta (svydesign) del paquete 'survey' de R.
-License: GPL-3
+Description: Plugin para el diseño de encuestas complejas
+License: GPL (>= 3)
 Encoding: UTF-8
-Authors@R: person(given="Alfonso", family="Cano", email="alfonso.cano@correo.buap.mx", role=c("aut", "cre"))
+LazyLoad: yes
+URL: https://github.com/AlfCano/rk.survey.design
+Authors@R: person(given="Alfonso", family="Cano",
+        email="alfonso.cano@correo.buap.mx", role=c("aut", "cre"))

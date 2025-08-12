@@ -1,0 +1,179 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: https://mail.kde.org/mailman/listinfo/kde-i18n-doc\n"
+"POT-Creation-Date: 2025-08-05 00:21-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: inst/rkward/po/rc.cpp:1
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+#: inst/rkward/po/rc.cpp:2
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#. i18n: file: inst/rkward/rk.survey.design.rkmap:13
+#. i18n: ectx: <about name="...">
+#: inst/rkward/po/rc.cpp:5
+msgid "rk.survey.design"
+msgstr ""
+
+#. i18n: file: inst/rkward/rk.survey.design.rkmap:13
+#. i18n: ectx: <about shortinfo="...">
+#: inst/rkward/po/rc.cpp:8
+msgid "Plugin para el diseño de encuestas complejas"
+msgstr ""
+
+#. i18n: file: inst/rkward/rk.survey.design.rkmap:20
+#. i18n: ectx: <about> <author given="...">
+#: inst/rkward/po/rc.cpp:11
+msgctxt "Author name"
+msgid "Alfonso"
+msgstr ""
+
+#. i18n: file: inst/rkward/rk.survey.design.rkmap:20
+#. i18n: ectx: <about> <author family="...">
+#: inst/rkward/po/rc.cpp:14
+msgctxt "Author name"
+msgid "Cano"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.pluginmap:12
+#. i18n: ectx: <about name="...">
+#: inst/rkward/po/rc.cpp:17
+msgid "Crear Diseño de Encuesta (Paquete Survey)"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.pluginmap:12
+#. i18n: ectx: <about shortinfo="...">
+#: inst/rkward/po/rc.cpp:20
+msgid "Un complemento para crear un objeto de diseño de encuesta (svydesign)."
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.pluginmap:32
+#. i18n: ectx: <components> <component label="...">
+#: inst/rkward/po/rc.cpp:23
+msgid "Crear Diseño de Encuesta"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.js:57
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja)
+#: inst/rkward/po/rc.cpp:26
+msgid "Resumen del objeto de diseño de encuesta creado:"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:2
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <summary>
+#: inst/rkward/po/rc.cpp:30
+msgid ""
+"Crea un objeto de diseño de encuesta (survey design) utilizando el paquete "
+"\"survey\". Este objeto es fundamental para realizar análisis de encuestas "
+"complejas."
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:5
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <usage>
+#: inst/rkward/po/rc.cpp:33
+msgid ""
+"1. Seleccione el data.frame que contiene los datos de la encuesta en la "
+"pestaña \"Configuración del Diseño\". 2. Especifique la variable de Peso "
+"(obligatoria) y, opcionalmente, las variables de Estrato e ID. 3. En la "
+"pestaña \"Opciones de Salida\", asigne un nombre al objeto de R que se "
+"creará. 4. Ejecute el análisis. Se generará un objeto 'svydesign' en su "
+"entorno de trabajo."
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:11
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <section title="...">
+#. i18n: file: inst/rkward/plugins/survey_design.xml:9
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="...">
+#: inst/rkward/po/rc.cpp:36 inst/rkward/po/rc.cpp:51
+msgid "Configuración del Diseño"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:11
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <section title="Configuración del Diseño">
+#: inst/rkward/po/rc.cpp:39
+msgid ""
+"<param name=\"Datos (data.frame)\">El conjunto de datos que contiene todas "
+"las variables de la encuesta.</param> <param name=\"Variable de Peso\">La "
+"variable numérica que contiene los pesos de muestreo.</param> <param "
+"name=\"Variable de Estrato (opcional)\">La variable que define los estratos "
+"del muestreo. Si se omite, se asume un diseño no estratificado.</param> "
+"<param name=\"Variable de ID (opcional)\">La variable que identifica las "
+"unidades primarias de muestreo (PSU/clusters). Si se omite, se asume un "
+"muestreo de elementos individuales.</param>"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:17
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <section title="...">
+#. i18n: file: inst/rkward/plugins/survey_design.xml:19
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="...">
+#: inst/rkward/po/rc.cpp:42 inst/rkward/po/rc.cpp:66
+msgid "Opciones de Salida"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.rkh:17
+#. i18n: ectx: (Loaded from Crear Diseño de Encuesta Compleja) <section title="Opciones de Salida">
+#: inst/rkward/po/rc.cpp:45
+msgid ""
+"<param name=\"Guardar objeto en\">Selecciona el entorno de R donde se "
+"guardará el nuevo objeto de diseño. Por defecto es el entorno global (."
+"GlobalEnv).</param> <param name=\"Nombre para el objeto de diseño\">El "
+"nombre que tendrá el objeto de R creado. Por ejemplo: 'design.svy'.</param> "
+"<param name=\"Sobrescribir objeto si ya existe\">Si esta casilla está "
+"marcada, y ya existe un objeto con el mismo nombre en el entorno "
+"seleccionado, será reemplazado. Si no está marcada (por seguridad), la "
+"operación se detendrá con un error.</param>"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:7
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="...">
+#: inst/rkward/po/rc.cpp:48
+msgid "Crear Diseño de Encuesta Compleja"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:11
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="Configuración del Diseño"> <varselector label="...">
+#: inst/rkward/po/rc.cpp:54
+msgid "Datos (data.frame)"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:14
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="Configuración del Diseño"> <varslot label="...">
+#: inst/rkward/po/rc.cpp:57
+msgid "Variable de Peso"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:15
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="Configuración del Diseño"> <varslot label="...">
+#: inst/rkward/po/rc.cpp:60
+msgid "Variable de Estrato (opcional)"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:16
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="Configuración del Diseño"> <varslot label="...">
+#: inst/rkward/po/rc.cpp:63
+msgid "Variable de ID (opcional)"
+msgstr ""
+
+#. i18n: file: inst/rkward/plugins/survey_design.xml:27
+#. i18n: ectx: (Crear Diseño de Encuesta Compleja) <dialog label="Crear Diseño de Encuesta Compleja"> <tab label="Opciones de Salida"> <saveobject label="...">
+#: inst/rkward/po/rc.cpp:69
+msgid "Guardar objeto de diseño"
+msgstr ""

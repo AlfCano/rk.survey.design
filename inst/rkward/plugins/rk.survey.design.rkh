@@ -1,0 +1,44 @@
+<!DOCTYPE rkhelp >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<title>
+		rk.survey.design
+	</title>
+	<summary>
+	</summary>
+	<usage>
+	</usage>
+	<!--
+		<section id="sct_EDITORDE" title="EDIT OR DELETE ME">
+			EDIT OR DELETE ME
+		</section>
+	-->
+	<settings>
+		<caption id="tab_CnfgrcnD" />
+		<setting id="weight_var">
+		</setting>
+		<setting id="strata_var">
+		</setting>
+		<setting id="id_var">
+		</setting>
+		<setting id="nest_cbox">
+		</setting>
+		<caption id="tab_OpcnsdSl" />
+		<setting id="save_survey">
+		</setting>
+	</settings>
+	<!--
+		<related>
+			<ul>
+				<li>
+					<link href="rkward://rhelp/..." />
+				</li>
+			</ul>
+		</related>
+	-->
+	<technical>
+	</technical>
+</document>
