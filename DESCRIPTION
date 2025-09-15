@@ -1,12 +1,14 @@
 Package: rk.survey.design
 Type: Package
-Title: Plugin para el diseño de encuestas complejas
-Version: 0.2.8
-Date: 2025-08-11
+Title: A plugin package to create and analyze complex survey designs
+        using the 'survey' package.
+Version: 0.6.0
+Date: 2025-09-15
 Author: Alfonso Cano
 Maintainer: Alfonso Cano <alfonso.cano@correo.buap.mx>
 Enhances: rkward
-Description: Plugin para el diseño de encuestas complejas
+Description: A plugin package to create and analyze complex survey
+        designs using the 'survey' package.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyLoad: yes

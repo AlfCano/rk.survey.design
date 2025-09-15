@@ -1,0 +1,46 @@
+<!DOCTYPE rkhelp >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<summary>
+	</summary>
+	<usage>
+	</usage>
+	<!--
+		<section id="sct_EDITORDE" title="EDIT OR DELETE ME">
+			EDIT OR DELETE ME
+		</section>
+	-->
+	<settings>
+		<setting id="svydesign_object2">
+		</setting>
+		<setting id="analysis_vars2">
+		</setting>
+		<setting id="by_vars">
+		</setting>
+		<caption id="frm_SbstOptn" />
+		<setting id="subset_cbox2">
+		</setting>
+		<setting id="subset_input2">
+		</setting>
+		<setting id="by_func">
+		</setting>
+		<setting id="lonely_psu_cbox2">
+		</setting>
+		<setting id="save_by">
+		</setting>
+	</settings>
+	<!--
+		<related>
+			<ul>
+				<li>
+					<link href="rkward://rhelp/..." />
+				</li>
+			</ul>
+		</related>
+	-->
+	<technical>
+	</technical>
+</document>

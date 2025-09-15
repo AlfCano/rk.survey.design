@@ -1,0 +1,152 @@
+# Script autocontenido para generar el plugin 'rk.svy.total' siguiendo el patrón correcto
+
+local({
+  require(rkwarddev)
+  rkwarddev.required("0.08-1")
+  output.dir <- "."
+  overwrite <- TRUE
+  guess.getter <- FALSE
+  rk.set.indent(by = "\t")
+
+  # Metadatos
+  aboutPlugin <- rk.XML.about(
+    name = "rk.svy.total",
+    author = person(
+      given = "Alfonso",
+      family = "Cano",
+      email = "alfonso.cano@correo.buap.mx",
+      role = c("aut", "cre")
+    ),
+    about = list(
+      desc = "Plugin para calcular el total de una variable en un diseño de encuesta complejo.",
+      version = "0.3.2",
+      url = "https://github.com/AlfCano/rk.survey.design",
+      license = "GPL (>= 3)"
+    )
+  )
+
+  # Ayuda
+  plugin_help <- list(
+    summary = "Calcula el total y el error estándar de una variable usando un objeto 'survey design' generado con el paquete 'survey'.",
+    usage = "1. Selecciona el objeto 'svydesign' (diseño de encuesta) creado previamente.\n2. Selecciona la variable numérica para calcular el total (solo variables del data.frame almacenado en el objeto de diseño).\n3. Selecciona si deseas omitir valores perdidos (na.rm).\n4. En la pestaña 'Opciones de Salida', asigna un nombre al objeto de resultados si deseas guardarlo.\n5. Ejecuta el análisis. El resultado aparecerá formateado en la ventana de salida de RKWard.",
+    title = "svy Total",
+    sections = list(
+      list(
+        title = "Configuración",
+        text = "Selecciona el objeto de diseño de encuesta y la variable sobre la que calcular el total. Solo se mostrarán las variables disponibles en el data.frame almacenado en el objeto survey design."
+      ),
+      list(
+        title = "Opciones de Salida",
+        text = "Permite guardar el objeto de resultados en el entorno de R."
+      )
+    )
+  )
+  help_sections <- lapply(plugin_help$sections, function(x) {
+    rk.rkh.section(title = x$title, text = x$text, short = x$title)
+  })
+  help_document <- rk.rkh.doc(
+    summary = rk.rkh.summary(text = plugin_help$summary),
+    usage = rk.rkh.usage(text = plugin_help$usage),
+    sections = help_sections,
+    title = rk.rkh.title(text = plugin_help$title)
+  )
+
+  # JS calculate (con design=)
+  js_calculate_code <- "
+    var design_object = getValue('design_object');
+    var variable_full = getValue('variable');
+    var na_rm = getValue('na_rm_cbox');
+    var save_name = getValue('save_results');
+    if (!save_name) save_name = 'survey.total';
+
+    function getColumnName(fullName) {
+      if (!fullName) return '';
+      if (fullName.indexOf('[[\"') > -1) {
+        var match = fullName.match(/\\[\\[\\\"(.*?)\\\"\\]\\]/);
+        if(match && match[1]) return match[1];
+      }
+      if (fullName.indexOf('$') > -1) {
+        return fullName.substring(fullName.lastIndexOf('$') + 1);
+      }
+      return fullName;
+    }
+    var variable = getColumnName(variable_full);
+
+    var args = [];
+    if(variable) args.push('~' + variable);
+    if(design_object) args.push('design=' + design_object);
+    if(na_rm == '1' || na_rm === true) args.push('na.rm=TRUE');
+
+    echo(save_name + ' <- svytotal(' + args.join(', ') + ')\\n');
+  "
+
+  # Diálogo
+  design_object_selector <- rk.XML.varselector(id.name = "design_object", label = "Objeto svydesign")
+  attr(design_object_selector, "required") <- "1"
+  attr(design_object_selector, "classes") <- "survey.design"
+
+  variable_selector <- rk.XML.varslot(
+    id.name = "variable",
+    label = "Variable en el objeto svydesign (slot $variables)",
+    source = "design_object"
+  )
+  attr(variable_selector, "required") <- "1"
+
+  na_rm_checkbox <- rk.XML.cbox(label = "Omitir valores perdidos (na.rm)", id.name = "na_rm_cbox", chk = FALSE)
+
+  save_total_object <- rk.XML.saveobj(
+    label = "Guardar resultado en",
+    chk = TRUE,
+    checkable = TRUE,
+    initial = "survey.total",
+    required = FALSE,
+    id.name = "save_results"
+  )
+
+  dialog.content <- rk.XML.dialog(
+    label = "Calcular Total de Encuesta",
+    child = rk.XML.tabbook(
+      tabs = list(
+        "Configuración" = rk.XML.row(
+          design_object_selector,
+          rk.XML.col(
+            rk.XML.col(
+              variable_selector,
+              na_rm_checkbox
+            )
+          )
+        ),
+        "Opciones de Salida" = rk.XML.row(
+          rk.XML.col(
+            save_total_object
+          )
+        )
+      )
+    )
+  )
+
+  plugin.dir <- rk.plugin.skeleton(
+    about = aboutPlugin,
+    path = output.dir,
+    guess.getter = guess.getter,
+    xml = list(dialog = dialog.content),
+    js = list(
+      require = "survey",
+      calculate = js_calculate_code,
+      printout = ""
+    ),
+    rkh = list(help = help_document),
+    pluginmap = list(
+      name = "rk.svy.total",
+      hierarchy = list("Survey", "svy Total"),
+      po_id = "rk.svy.total"
+    ),
+    create = c("pmap", "xml", "js", "desc", "rkh"),
+    overwrite = overwrite,
+    load = TRUE,
+    show = TRUE
+  )
+
+  message("¡Archivos del plugin '", aboutPlugin@name, "' generados con éxito en '", plugin.dir, "'!")
+  message("SIGUIENTE PASO: Abra RKWard, navegue a esta carpeta y ejecute los comandos de compilación e instalación.")
+})

@@ -5,7 +5,7 @@
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
 	<title>
-		rk.survey.design
+		Create Survey Design
 	</title>
 	<summary>
 	</summary>
@@ -17,7 +17,8 @@
 		</section>
 	-->
 	<settings>
-		<caption id="tab_CnfgrcnD" />
+		<setting id="dataframe_object">
+		</setting>
 		<setting id="weight_var">
 		</setting>
 		<setting id="strata_var">
@@ -26,7 +27,6 @@
 		</setting>
 		<setting id="nest_cbox">
 		</setting>
-		<caption id="tab_OpcnsdSl" />
 		<setting id="save_survey">
 		</setting>
 	</settings>

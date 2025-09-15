@@ -1,0 +1,34 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="CreateSurveyDesign.js" />
+	<help file="CreateSurveyDesign.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Create Complex Survey Design">
+		<row id="row_vSWSIDCNTR">
+			<varselector id="dataframe_selector" />
+			<column id="clm_vSWSIDCNTR">
+				<varslot id="dataframe_object" label="Survey data (data.frame)" source="dataframe_selector" classes="data.frame" required="true" />
+				<varslot id="weight_var" label="Weight variable" source="dataframe_selector" required="true" />
+				<varslot id="strata_var" label="Strata variable (optional)" source="dataframe_selector" />
+				<varslot id="id_var" label="ID/Cluster variable (optional)" source="dataframe_selector" />
+				<checkbox id="nest_cbox" label="Nest clusters within strata (nest=TRUE)" value="1" />
+				<saveobject label="Save survey design object as" checkable="true" checked="true" initial="survey.design" id="save_survey" />
+			</column>
+		</row>
+	</dialog>
+</document>

@@ -14,55 +14,40 @@ function calculate(is_preview){
 
 	// the R code to be evaluated
 
-    // Obtenemos los nombres completos de las variables
     var weight_var_full = getValue("weight_var");
     var strata_var_full = getValue("strata_var");
     var id_var_full = getValue("id_var");
-    var dataframe = weight_var_full.split(/\[\[|\\$/)[0];
+    var dataframe = getValue("dataframe_object");
     var nest_option = getValue("nest_cbox");
-
     function getColumnName(fullName) {
         if (!fullName) return "";
-        if (fullName.indexOf("[[") > -1) {
-            return fullName.match(/\[\[\"(.*?)\"\]\]/)[1];
-        } else if (fullName.indexOf("$") > -1) {
-            return fullName.substring(fullName.lastIndexOf("$") + 1);
-        } else {
-            return fullName;
-        }
+        if (fullName.indexOf("[[") > -1) { return fullName.match(/\[\[\"(.*?)\"\]\]/)[1]; }
+        else if (fullName.indexOf("$") > -1) { return fullName.substring(fullName.lastIndexOf("$") + 1); }
+        else { return fullName; }
     }
-
     var weight_col = getColumnName(weight_var_full);
     var strata_col = getColumnName(strata_var_full);
     var id_col = getColumnName(id_var_full);
-
     var options = new Array();
-
-    if (id_col) {
-        options.push("ids = ~" + id_col);
-    } else {
-        options.push("ids = ~1");
-    }
-    if (strata_col) {
-        options.push("strata = ~" + strata_col);
-    }
-    options.push("weights = ~" + weight_col);
+    if (id_col) { options.push("ids = ~" + id_col); } else { options.push("ids = ~1"); }
+    if (strata_col) { options.push("strata = ~" + strata_col); }
+    if (weight_col) { options.push("weights = ~" + weight_col); }
     options.push("data = " + dataframe);
-
-    // Manejo robusto de la casilla nest_cbox
-    if(nest_option == "1" || nest_option == 1 || nest_option == "true" || nest_option === true){
-        options.push("nest=TRUE");
-    }
-
-    // Se crea el objeto con un nombre temporal y fijo.
-    echo('result <- svydesign(' + options.join(', ') + ')\n');
+    if(nest_option == "1"){ options.push("nest=TRUE"); }
+    echo('survey.design <- svydesign(' + options.join(', ') + ')\n');
   
 }
 
 function printout(is_preview){
 	// printout the results
-	new Header(i18n("rk.survey.design results")).print();
+	new Header(i18n("Create Survey Design results")).print();
 
+    if(getValue("save_survey") == "1"){
+        var save_name = getValue("save_survey.objectname");
+        var header_cmd = "rk.header(\"Survey design object saved as: " + save_name + "\");\n";
+        echo(header_cmd);
+    }
+  
 	//// save result object
 	// read in saveobject variables
 	var saveSurvey = getValue("save_survey");
@@ -70,7 +55,7 @@ function printout(is_preview){
 	var saveSurveyParent = getValue("save_survey.parent");
 	// assign object to chosen environment
 	if(saveSurveyActive) {
-		echo(".GlobalEnv$" + saveSurvey + " <- result\n");
+		echo(".GlobalEnv$" + saveSurvey + " <- survey.design\n");
 	}
 
 }

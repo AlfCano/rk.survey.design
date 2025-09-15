@@ -3,9 +3,9 @@
 >
 <document
 	base_prefix=""
-	namespace="rksurveydesign"
-	id="rksurveydesign_rkward"
-	po_id="rksurveydesign_rkward"
+	namespace="CreateSurveyDesign"
+	id="CreateSurveyDesign_rkward"
+	po_id="CreateSurveyDesign_rkward"
 	priority="medium"
 >
 	<!--
@@ -18,10 +18,10 @@
 	-->
 	<about
 		name="rk.survey.design"
-		shortinfo="Plugin para el diseño de encuestas complejas"
-		longinfo="Plugin para el diseño de encuestas complejas"
-		version="0.2.8"
-		releasedate="2025-08-11"
+		shortinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
+		longinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
+		version="0.6.0"
+		releasedate="2025-09-15"
 		url="https://github.com/AlfCano/rk.survey.design"
 		license="GPL (&gt;= 3)"
 	>
@@ -40,10 +40,24 @@
 	/>
 	<components>
 		<component
-			id="cmp_rksurveydesignrksurvydsgn"
-			label="rk.survey.design"
+			id="cmp_CreateSurvyDsgnSrvyMnrTtl"
+			label="Survey Mean or Total"
 			type="standard"
-			file="plugins/rk.survey.design.xml"
+			file="plugins/SurveyMeanorTotal.xml"
+		>
+		</component>
+		<component
+			id="cmp_CrtSrvyDsgnGrpdSrvyAnlyss"
+			label="Grouped Survey Analysis"
+			type="standard"
+			file="plugins/GroupedSurveyAnalysis.xml"
+		>
+		</component>
+		<component
+			id="cmp_CreateSrvyDsgnCrtSrvyDsgn"
+			label="Create Survey Design"
+			type="standard"
+			file="plugins/CreateSurveyDesign.xml"
 		>
 		</component>
 	</components>
@@ -53,11 +67,37 @@
 			label="Survey"
 		>
 			<menu
+				id="men_SrvyMnrTtl"
+				label="Survey Mean or Total"
+			>
+				<entry
+					component="cmp_CreateSurvyDsgnSrvyMnrTtl"
+				/>
+			</menu>
+		</menu>
+		<menu
+			id="men_Survey"
+			label="Survey"
+		>
+			<menu
+				id="men_GrpdSrvyAn"
+				label="Grouped Survey Analysis (by)"
+			>
+				<entry
+					component="cmp_CrtSrvyDsgnGrpdSrvyAnlyss"
+				/>
+			</menu>
+		</menu>
+		<menu
+			id="men_Survey"
+			label="Survey"
+		>
+			<menu
 				id="men_CrtSrvyDsg"
 				label="Create Survey Design"
 			>
 				<entry
-					component="cmp_rksurveydesignrksurvydsgn"
+					component="cmp_CreateSrvyDsgnCrtSrvyDsgn"
 				/>
 			</menu>
 		</menu>
