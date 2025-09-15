@@ -46,13 +46,20 @@ To install the `rk.survey.design` plugin package, you need the source code (e.g.
 2.  Set your R working directory to the folder that *contains* the `rk.survey.design` plugin directory. For example, if your code is in `/home/user/R/rk.survey.design`, set your working directory to `/home/user/R`.
 3.  Run the following commands in the R console:
 
-    ```R
-    # This updates the language files and dependencies for the plugin
-    rk.updatePluginMessages(plugin.dir="rk.survey.design")
+```
+local({
+## Preparar
+require(devtools)
+## Computar
+  install_github(
+    repo="AlfCano/rk.survey.design"
+  )
+## Imprimir el resultado
+rk.header ("Resultados de Instalar desde git")
+})
 
-    # This installs the plugin package into your R library
-    devtools::install("rk.survey.design")
-    ```
+```
+
 4.  Restart RKWard to ensure the new menu items appear correctly.
 
 ## Usage Workflow Example
