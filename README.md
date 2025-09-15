@@ -18,12 +18,14 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 *   **Survey Mean or Total:**
     *   Takes a `svydesign` object as input.
     *   Calculates the survey-weighted mean (`svymean`) or total (`svytotal`) for one or more variables.
+    *   Includes an option to subset the svyobject.
     *   Includes an option to adjust for strata with single clusters ("lonely PSUs").
 
 *   **Grouped Survey Analysis (by):**
     *   Takes a `svydesign` object as input.
     *   Performs grouped analysis using `survey::svyby()`.
     *   Calculates survey-weighted means or totals of analysis variables for each subgroup defined by one or more grouping variables.
+    *   Includes an option to subset the svyobject.
     *   Includes an option to adjust for lonely PSUs.
 
 ## Requirements
@@ -97,6 +99,11 @@ A new object named `survey.design` of class `svydesign` will be created in your 
 9.  Click **Submit**.
 
 The RKWard output window will display a formatted table showing the mean `api00` and `api99` scores for each school type (`E`, `H`, `M`), correctly weighted according to the survey design. A new data frame `svyby_result` will also be available in your workspace.
+
+*   **Subset Survey Design:**
+    *   Takes an existing `svydesign` object as input.
+    *   Filters the design based on a user-specified logical condition.
+    *   Creates a new, smaller `svydesign` object containing only the observations that meet the criteria, while correctly preserving the survey design parameters for the subset.
 
 ## Author
 
