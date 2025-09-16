@@ -80,7 +80,7 @@ require(devtools)
 rk.header ("Resultados de Instalar desde git")
 })
 
-3.  Restart RKWard to ensure the new menu items appear correctly.
+```
 
 3.  Restart RKWard to ensure the new menu items appear correctly.
 
