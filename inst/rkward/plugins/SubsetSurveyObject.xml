@@ -1,0 +1,31 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="SubsetSurveyObject.js" />
+	<help file="SubsetSurveyObject.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Subset Survey Object">
+		<row id="row_v6W6S6S6S6">
+			<varselector id="svydesign_selector6" label="Workspace objects" />
+			<column id="clm_vrsl6S6S6S">
+				<varslot id="svydesign_object6" label="Survey design object" source="svydesign_selector6" required="true" />
+				<input label="Subset expression" id="subset_input6" required="true" />
+				<saveobject label="Save subsetted object as" checkable="true" checked="true" initial="svy_subset" id="save_subset" />
+			</column>
+		</row>
+	</dialog>
+</document>

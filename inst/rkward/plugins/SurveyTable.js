@@ -26,43 +26,46 @@ function calculate(is_preview){
             return fullName;
         }
     }
-    var lonely_psu = getValue("lonely_psu_cbox1");
+    var lonely_psu = getValue("lonely_psu_cbox7");
     if (lonely_psu == "1") {
         echo("options(survey.lonely.psu=\"adjust\")\n\n");
     }
-    var use_subset = getValue("subset_cbox1");
-    var subset_expr = getValue("subset_input1");
-    var svy_obj = getValue("svydesign_object1");
+    var use_subset = getValue("subset_cbox7");
+    var subset_expr = getValue("subset_input7");
+    var svy_obj = getValue("svydesign_object7");
     var final_svy_obj = svy_obj;
     if (use_subset == "1" && subset_expr) {
         echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
         final_svy_obj = "svy_subset";
     }
-    var analysis_vars_str = getValue("analysis_vars1");
-    var func = getValue("mean_total_func");
-    var save_name = getValue("save_mean_total.objectname");
-    var vars_array = analysis_vars_str.split(/\s+/).filter(function(n){ return n != "" });
-    var clean_vars_array = vars_array.map(getColumnName);
-    var formula = "~" + clean_vars_array.join(" + ");
-    echo(save_name + " <- " + func + "(" + formula + ", " + final_svy_obj + ")\n");
+    var row_str = getValue("row_var");
+    var col_str = getValue("col_var");
+    var save_name = getValue("save_table.objectname");
+    var clean_row = getColumnName(row_str);
+    var clean_col = getColumnName(col_str);
+    var formula = "~" + clean_row;
+    if (clean_col) {
+        formula += " + " + clean_col;
+    }
+    echo("svytable_result <- svytable(" + formula + ", " + final_svy_obj + ")\n");
   
 }
 
 function printout(is_preview){
 	// printout the results
-	new Header(i18n("Survey svystat results")).print();
+	new Header(i18n("Survey Table")).print();
 {
-      echo("svystat_result |> as.data.frame() |> rk.results()\n");
+      echo("rk.results(svytable_result)\n");
     }
   
 	//// save result object
 	// read in saveobject variables
-	var saveMeanTotal = getValue("save_mean_total");
-	var saveMeanTotalActive = getValue("save_mean_total.active");
-	var saveMeanTotalParent = getValue("save_mean_total.parent");
+	var saveTable = getValue("save_table");
+	var saveTableActive = getValue("save_table.active");
+	var saveTableParent = getValue("save_table.parent");
 	// assign object to chosen environment
-	if(saveMeanTotalActive) {
-		echo(".GlobalEnv$" + saveMeanTotal + " <- svystat_result\n");
+	if(saveTableActive) {
+		echo(".GlobalEnv$" + saveTable + " <- svytable_result\n");
 	}
 
 }

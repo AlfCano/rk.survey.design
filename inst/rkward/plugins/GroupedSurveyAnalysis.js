@@ -30,33 +30,31 @@ function calculate(is_preview){
     if (lonely_psu == "1") {
         echo("options(survey.lonely.psu=\"adjust\")\n\n");
     }
-
     var use_subset = getValue("subset_cbox2");
     var subset_expr = getValue("subset_input2");
     var svy_obj = getValue("svydesign_object2");
     var final_svy_obj = svy_obj;
-
     if (use_subset == "1" && subset_expr) {
         echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
         final_svy_obj = "svy_subset";
     }
-
     var analysis_vars_str = getValue("analysis_vars2");
     var by_vars_str = getValue("by_vars");
     var func = getValue("by_func");
+    var save_name = getValue("save_by.objectname");
     var analysis_vars_array = analysis_vars_str.split(/\s+/).filter(function(n){ return n != "" });
     var clean_analysis_vars = analysis_vars_array.map(getColumnName);
     var formula = "~" + clean_analysis_vars.join(" + ");
     var by_vars_array = by_vars_str.split(/\s+/).filter(function(n){ return n != "" });
     var clean_by_vars = by_vars_array.map(getColumnName);
     var by_formula = "~" + clean_by_vars.join(" + ");
-    echo("svyby_result <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\n");
+    echo(save_name + " <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\n");
   
 }
 
 function printout(is_preview){
 	// printout the results
-	new Header(i18n("Grouped Survey Analysis results")).print();
+	new Header(i18n("Survey by results")).print();
 {
       echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\n");
     }

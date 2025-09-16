@@ -4,9 +4,6 @@
 		this code was generated using the rkwarddev package.
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
-	<title>
-		Create Survey Design
-	</title>
 	<summary>
 	</summary>
 	<usage>
@@ -17,19 +14,20 @@
 		</section>
 	-->
 	<settings>
-		<setting id="dataframe_object">
+		<setting id="svydesign_object8">
 		</setting>
-		<setting id="weight_var">
+		<setting id="var1_chisq">
 		</setting>
-		<setting id="strata_var">
+		<setting id="var2_chisq">
 		</setting>
-		<setting id="id_var">
+		<caption id="frm_SbstOptn" />
+		<setting id="subset_cbox8">
 		</setting>
-		<setting id="fpc_var">
+		<setting id="subset_input8">
 		</setting>
-		<setting id="nest_cbox">
+		<setting id="lonely_psu_cbox8">
 		</setting>
-		<setting id="save_survey">
+		<setting id="save_chisq">
 		</setting>
 	</settings>
 	<!--

@@ -1,32 +1,111 @@
-# rk.survey.design
+# rk.survey.design: Survey Analysis Tools for RKWard
 
-EN: This plugin will generate and execute the R code needed to create a `survey.design` object based on your selections, and display a summary of the design object in the RKWard results window.
+![Version](https://img.shields.io/badge/Version-0.6.0-blue.svg)
+![License](https://img.shields.io/badge/License-GPL--3-green.svg)
+![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 
-ES: Este plug-in generará y ejecutará el código R necesario para crear un objeto `survey.design` basado en tus selecciones, y mostrará un resumen del objeto de diseño en la ventana de resultados de RKWard.
+This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing basic statistical analyses like calculating means, totals, and grouped statistics.
 
-### Cómo Instalar el Plug-in
-Para instalarlo en RKWard:
-1. Abre RKWard.
-2. Ve al menú "Settings" (Configuración) y selecciona "Manage plugins" (Gestionar complementos).
-3. En la ventana que aparece, haz clic en "Install/Update from .pluginmap file..." (Instalar/Actualizar desde archivo .pluginmap...).
-4. Navega hasta tu carpeta rk.survey.design y selecciona el archivo `rk.survey.design.pluginmap`.
-5. RKWard instalará el plug-in. Es posible que necesites reiniciar RKWard para que los cambios surtan efecto.
+## Features / Included Plugins
 
+This package installs a new top-level menu in RKWard: **Survey**, which contains the following three plugins:
 
-Después de reiniciar, deberías encontrar una nueva entrada en el menú de RKWard (probablemente en "Análisis" -> "Encuestas" o similar, dependiendo de la configuración de tu menú) que te permitirá abrir el diálogo para crear tu diseño de encuesta.
+*   **Create Survey Design:**
+    *   The cornerstone of the package. This plugin uses `survey::svydesign()` to create a `svydesign` object from a standard data frame.
+    *   Allows specification of weights, strata, and cluster IDs (PSUs).
+    *   Includes an option for nested designs.
 
+*   **Survey Mean or Total:**
+    *   Takes a `svydesign` object as input.
+    *   Calculates the survey-weighted mean (`svymean`) or total (`svytotal`) for one or more variables.
+    *   Includes an option to subset the svyobject.
+    *   Includes an option to adjust for strata with single clusters ("lonely PSUs").
 
+*   **Grouped Survey Analysis (by):**
+    *   Takes a `svydesign` object as input.
+    *   Performs grouped analysis using `survey::svyby()`.
+    *   Calculates survey-weighted means or totals of analysis variables for each subgroup defined by one or more grouping variables.
+    *   Includes an option to subset the svyobject.
+    *   Includes an option to adjust for lonely PSUs.
 
-Cómo Funciona Este Archivo
-<components>: Esta sección le dice a RKWard qué archivos XML definen las interfaces de tu plug-in. En este caso, es solo survey_design.xml. Le asignamos un id único ("create_survey_design") y una label (etiqueta) que es el texto que aparecerá en el menú.
-<hierarchy>: Esta sección define la estructura del menú.
-<menu id="data">: Le estamos diciendo a RKWard que queremos añadir algo al menú principal cuyo identificador es "data". Este es el ID interno de RKWard para el menú "Datos".
-<entry component="create_survey_design" />: Aquí es donde colocamos nuestro componente, identificado por su id, dentro del menú "Datos".
+## Requirements
 
+1.  A working installation of **RKWard**.
+2.  The R package **`survey`**. If you do not have it, install it from the R console:
+    ```R
+    install.packages("survey")
+    ```
+3.  The R package **`devtools`** is required for installation from the source code.
+    ```R
+    install.packages("devtools")
+    ```
 
-Pasos Finales para la Instalación
-Ahora tu carpeta de plug-in está completa. La estructura debería verse así:
+## Installation
 
+To install the `rk.survey.design` plugin package, you need the source code (e.g., by downloading it from GitHub).
 
+1.  Open RKWard.
+2.  Run the following commands in the R console:
 
+```
+local({
+## Preparar
+require(devtools)
+## Computar
+  install_github(
+    repo="AlfCano/rk.survey.design"
+  )
+## Imprimir el resultado
+rk.header ("Resultados de Instalar desde git")
+})
 
+```
+
+3.  Restart RKWard to ensure the new menu items appear correctly.
+
+## Usage Workflow Example
+
+The intended workflow is to first create a design object and then use that object for analysis.
+
+### Step 1: Create the Survey Design Object
+
+1.  Load a sample dataset from the `survey` package into your R workspace:
+    ```R
+    library(survey)
+    data(api)
+    ```
+2.  Navigate to **Survey > Create Survey Design**.
+3.  In the RKWard dialog, drag the `apiclus1` data frame from the workspace browser into the "Survey data (data.frame)" slot.
+4.  The other slots will now be populated with the columns from `apiclus1`.
+    *   Select `pw` for the "Weight variable".
+    *   Select `stype` for the "Strata variable".
+    *   Select `dnum` for the "ID/Cluster variable".
+5.  In the "Save survey design object as" field, keep the default name `survey.design`.
+6.  Click **Submit**.
+
+A new object named `survey.design` of class `svydesign` will be created in your workspace.
+
+### Step 2: Perform a Grouped Analysis
+
+1.  Navigate to **Survey > Grouped Survey Analysis (by)**.
+2.  In the RKWard dialog, the object browser on the left will now show the `survey.design` object.
+3.  Drag `survey.design` into the "Survey design object" slot.
+4.  The "Analysis variables" and "Grouping variables (by)" slots will now be populated with the columns from *inside* the survey object (e.g., `api00`, `stype`, etc.).
+5.  For **"Analysis variables"**, select `api00` and `api99`.
+6.  For **"Grouping variables (by)"**, select `stype`.
+7.  Ensure the **"Function (FUN)"** dropdown is set to "Mean".
+8.  In the "Save result as" field, keep the default name `svyby_result`.
+9.  Click **Submit**.
+
+The RKWard output window will display a formatted table showing the mean `api00` and `api99` scores for each school type (`E`, `H`, `M`), correctly weighted according to the survey design. A new data frame `svyby_result` will also be available in your workspace.
+
+*   **Subset Survey Design:**
+    *   Takes an existing `svydesign` object as input.
+    *   Filters the design based on a user-specified logical condition.
+    *   Creates a new, smaller `svydesign` object containing only the observations that meet the criteria, while correctly preserving the survey design parameters for the subset.
+
+## Author
+
+Alfonso Cano Robles (alfonso.cano@correo.buap.mx)
+
+Assisted by Gemini, a large language model from Google.

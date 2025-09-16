@@ -1,0 +1,37 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="SurveyTable.js" />
+	<help file="SurveyTable.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Survey Table">
+		<row id="row_v7W7S7R7C7">
+			<varselector id="svydesign_selector7" label="Workspace objects" />
+			<column id="clm_v7S7R7C7SO">
+				<varslot id="svydesign_object7" label="Survey design object" source="svydesign_selector7" required="true" />
+				<varslot id="row_var" label="Row variable" source="svydesign_selector7" required="true" />
+				<varslot id="col_var" label="Column variable (optional)" source="svydesign_selector7" />
+				<frame label="Subset Option" id="frm_SbstOptn">
+					<checkbox id="subset_cbox7" label="Subset the survey design" value="1" />
+					<input label="Subset expression" id="subset_input7" />
+				</frame>
+				<checkbox id="lonely_psu_cbox7" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
+				<saveobject label="Save table as" checkable="true" checked="true" initial="svytable_result" id="save_table" />
+			</column>
+		</row>
+	</dialog>
+</document>

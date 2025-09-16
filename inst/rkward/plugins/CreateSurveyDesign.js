@@ -17,6 +17,7 @@ function calculate(is_preview){
     var weight_var_full = getValue("weight_var");
     var strata_var_full = getValue("strata_var");
     var id_var_full = getValue("id_var");
+    var fpc_var_full = getValue("fpc_var");
     var dataframe = getValue("dataframe_object");
     var nest_option = getValue("nest_cbox");
     function getColumnName(fullName) {
@@ -28,13 +29,15 @@ function calculate(is_preview){
     var weight_col = getColumnName(weight_var_full);
     var strata_col = getColumnName(strata_var_full);
     var id_col = getColumnName(id_var_full);
+    var fpc_col = getColumnName(fpc_var_full);
     var options = new Array();
     if (id_col) { options.push("ids = ~" + id_col); } else { options.push("ids = ~1"); }
     if (strata_col) { options.push("strata = ~" + strata_col); }
     if (weight_col) { options.push("weights = ~" + weight_col); }
+    if (fpc_col) { options.push("fpc = ~" + fpc_col); }
     options.push("data = " + dataframe);
     if(nest_option == "1"){ options.push("nest=TRUE"); }
-    echo('survey.design <- svydesign(' + options.join(', ') + ')\n');
+    echo(getValue("save_survey.objectname") + ' <- svydesign(' + options.join(', ') + ')\n');
   
 }
 
