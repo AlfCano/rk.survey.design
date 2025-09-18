@@ -40,11 +40,10 @@ function calculate(is_preview){
     }
     var analysis_vars_str = getValue("analysis_vars1");
     var func = getValue("mean_total_func");
-    var save_name = getValue("save_mean_total.objectname");
     var vars_array = analysis_vars_str.split(/\s+/).filter(function(n){ return n != "" });
     var clean_vars_array = vars_array.map(getColumnName);
     var formula = "~" + clean_vars_array.join(" + ");
-    echo(save_name + " <- " + func + "(" + formula + ", " + final_svy_obj + ")\n");
+    echo("svystat_result <- " + func + "(" + formula + ", " + final_svy_obj + ")\n");
   
 }
 
@@ -52,6 +51,9 @@ function printout(is_preview){
 	// printout the results
 	new Header(i18n("Survey svystat results")).print();
 {
+        var save_name = getValue("save_mean_total.objectname");
+        var header_cmd = "rk.header(\"Survey Stat saved as: " + save_name + "\",level=3);\n";
+        echo(header_cmd);
       echo("svystat_result |> as.data.frame() |> rk.results()\n");
     }
   

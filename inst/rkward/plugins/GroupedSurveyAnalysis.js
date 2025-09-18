@@ -41,14 +41,13 @@ function calculate(is_preview){
     var analysis_vars_str = getValue("analysis_vars2");
     var by_vars_str = getValue("by_vars");
     var func = getValue("by_func");
-    var save_name = getValue("save_by.objectname");
     var analysis_vars_array = analysis_vars_str.split(/\s+/).filter(function(n){ return n != "" });
     var clean_analysis_vars = analysis_vars_array.map(getColumnName);
     var formula = "~" + clean_analysis_vars.join(" + ");
     var by_vars_array = by_vars_str.split(/\s+/).filter(function(n){ return n != "" });
     var clean_by_vars = by_vars_array.map(getColumnName);
     var by_formula = "~" + clean_by_vars.join(" + ");
-    echo(save_name + " <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\n");
+    echo("svyby_result <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\n");
   
 }
 
@@ -56,7 +55,10 @@ function printout(is_preview){
 	// printout the results
 	new Header(i18n("Survey by results")).print();
 {
-      echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\n");
+        var save_name = getValue("save_by.objectname");
+        var header_cmd = "rk.header(\"Survey by saved as: " + save_name + "\",level=3);\n";
+        echo(header_cmd);
+        echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\n");
     }
   
 	//// save result object

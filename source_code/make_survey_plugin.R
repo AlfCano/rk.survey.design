@@ -15,68 +15,155 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.0",
+      version = "0.7.1",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
   )
 
+
   # =========================================================================================
-  # Main Plugin: Create Survey Design (with FPC)
+  # Main Plugin: Create Survey Design
   # =========================================================================================
   help_main <- rk.rkh.doc(
     title = rk.rkh.title(text = "Create Survey Design"),
     summary = rk.rkh.summary(text = "Creates a survey design object using svydesign() from the 'survey' package."),
     usage = rk.rkh.usage(text = "Select the data.frame, specify the design variables, and assign a name for the resulting survey design object.")
   )
+
   js_calc_main <- "
-    var weight_var_full = getValue(\"weight_var\");
-    var strata_var_full = getValue(\"strata_var\");
-    var id_var_full = getValue(\"id_var\");
-    var fpc_var_full = getValue(\"fpc_var\");
+    // Get values from UI
     var dataframe = getValue(\"dataframe_object\");
+    var id_var_full = getValue(\"id_var\");
+    var probs_var_full = getValue(\"probs_var\");
+    var strata_var_full = getValue(\"strata_var\");
+    var fpc_var_full = getValue(\"fpc_var\");
+    var weight_var_full = getValue(\"weight_var\");
     var nest_option = getValue(\"nest_cbox\");
+    var check_strata_option = getValue(\"check_strata_cbox\");
+    var pps_option = getValue(\"pps_input\");
+    var variance_option = getValue(\"variance_pps\");
+    var calibrate_formula = getValue(\"calibrate_formula_input\");
+    var dbtype_val = getValue(\"dbtype_input\");
+    var dbname_val = getValue(\"dbname_input\");
+
+    // Helper function to extract column name from full object path
     function getColumnName(fullName) {
         if (!fullName) return \"\";
         if (fullName.indexOf(\"[[\") > -1) { return fullName.match(/\\[\\[\\\"(.*?)\\\"\\]\\]/)[1]; }
         else if (fullName.indexOf(\"$\") > -1) { return fullName.substring(fullName.lastIndexOf(\"$\") + 1); }
         else { return fullName; }
     }
-    var weight_col = getColumnName(weight_var_full);
-    var strata_col = getColumnName(strata_var_full);
+
+    // Clean the column names
     var id_col = getColumnName(id_var_full);
+    var probs_col = getColumnName(probs_var_full);
+    var strata_col = getColumnName(strata_var_full);
     var fpc_col = getColumnName(fpc_var_full);
+    var weight_col = getColumnName(weight_var_full);
+
+    // Build the options array for the svydesign call
     var options = new Array();
+
     if (id_col) { options.push(\"ids = ~\" + id_col); } else { options.push(\"ids = ~1\"); }
+    if (probs_col) { options.push(\"probs = ~\" + probs_col); }
     if (strata_col) { options.push(\"strata = ~\" + strata_col); }
-    if (weight_col) { options.push(\"weights = ~\" + weight_col); }
     if (fpc_col) { options.push(\"fpc = ~\" + fpc_col); }
+    if (weight_col) { options.push(\"weights = ~\" + weight_col); }
+    if (calibrate_formula) { options.push(\"calibrate.formula = \" + calibrate_formula); }
+
     options.push(\"data = \" + dataframe);
-    if(nest_option == \"1\"){ options.push(\"nest=TRUE\"); }
-    echo(getValue(\"save_survey.objectname\") + ' <- svydesign(' + options.join(', ') + ')\\n');
+
+    if (nest_option == \"1\"){ options.push(\"nest=TRUE\"); }
+    if (check_strata_option == \"1\"){ options.push(\"check.strata=TRUE\"); }
+
+    if (pps_option) {
+        options.push(\"pps = \" + pps_option);
+    }
+    if (variance_option) {
+        options.push(\"variance = \\\"\" + variance_option + \"\\\"\");
+    }
+
+    if (dbtype_val) { options.push(\"dbtype = \\\"\" + dbtype_val + \"\\\"\"); }
+    if (dbname_val) { options.push(\"dbname = \\\"\" + dbname_val + \"\\\"\"); }
+
+    echo('survey.design <- svydesign(' + options.join(', ') + ')\\n');
   "
-  js_print_main <- '
-    if(getValue("save_survey") == "1"){
+
+  js_print_main <- '{
         var save_name = getValue("save_survey.objectname");
         var header_cmd = "rk.header(\\"Survey design object saved as: " + save_name + "\\");\\n";
         echo(header_cmd);
     }
   '
-  dataframe_selector <- rk.XML.varselector(id.name = "dataframe_selector")
+  # UI Elements
+  dataframe_selector <- rk.XML.varselector(id.name = "dataframe_selector", label="Select data object")
   dataframe_object_slot <- rk.XML.varslot(label = "Survey data (data.frame)", source = "dataframe_selector", classes = "data.frame", required = TRUE, id.name = "dataframe_object")
-  weight_varslot <- rk.XML.varslot(id.name = "weight_var", label = "Weight variable", source = "dataframe_selector", required = TRUE)
+  id_varslot <- rk.XML.varslot(id.name = "id_var", label = "ID/Cluster variable (~1 for no cluster)", source = "dataframe_selector")
   strata_varslot <- rk.XML.varslot(id.name = "strata_var", label = "Strata variable (optional)", source = "dataframe_selector")
-  id_varslot <- rk.XML.varslot(id.name = "id_var", label = "ID/Cluster variable (optional)", source = "dataframe_selector")
+  weight_varslot <- rk.XML.varslot(id.name = "weight_var", label = "Weight variable (or use probs)", source = "dataframe_selector")
+  probs_varslot <- rk.XML.varslot(id.name = "probs_var", label = "Sampling probabilities (optional)", source = "dataframe_selector")
   fpc_varslot <- rk.XML.varslot(id.name = "fpc_var", label = "Finite Population Correction (optional)", source = "dataframe_selector")
-  nest_checkbox <- rk.XML.cbox(label="Nest clusters within strata (nest=TRUE)", id.name="nest_cbox", value="1")
+
+  # Tab 1: Basic Options
+  basic_tab_content <- rk.XML.col(
+    dataframe_object_slot,
+    id_varslot,
+    strata_varslot,
+    weight_varslot,
+    probs_varslot,
+    fpc_varslot,
+    rk.XML.cbox(label="Nest clusters within strata (nest=TRUE)", id.name="nest_cbox", value="1")
+  )
+
+  # Tab 2: Advanced Options
+  advanced_tab_content <- rk.XML.col(
+    rk.XML.cbox(label="Check nesting of clusters in strata (check.strata=TRUE)", id.name="check_strata_cbox", value="1"),
+    rk.XML.input(label = "PPS method (e.g., 'brewer') or object", id.name = "pps_input"),
+    rk.XML.dropdown(label="PPS variance estimator", options=list("Horvitz-Thompson (default)"=list(val=""), "Yates-Grundy"=list(val="YG")), id.name="variance_pps"),
+    rk.XML.input(label = "Calibration formula (e.g., ~var1+var2)", id.name = "calibrate_formula_input"),
+    rk.XML.frame(
+      rk.XML.input(label = "Database type (e.g., 'SQLite')", id.name = "dbtype_input"),
+      rk.XML.input(label = "Database name (e.g., 'survey.db')", id.name = "dbname_input"),
+      label = "Database Options (optional)"
+    )
+  )
+
+  # Assemble Dialog
   save_survey_object <- rk.XML.saveobj(label = "Save survey design object as", chk = TRUE, initial = "survey.design", id.name = "save_survey")
   main_dialog_content <- rk.XML.dialog(
     label = "Create Complex Survey Design",
     child = rk.XML.row(
-        dataframe_selector,
-        rk.XML.col(dataframe_object_slot, weight_varslot, strata_varslot, id_varslot, fpc_varslot, nest_checkbox, save_survey_object)
+      dataframe_selector,
+      rk.XML.col(
+        rk.XML.tabbook(
+          tabs = list(
+            "Basic Design" = basic_tab_content,
+            "Advanced Options" = advanced_tab_content
+          )
+        ),
+        save_survey_object
+      )
     )
   )
+
+  # =========================================================================================
+  # Helper for all component JS blocks
+  # =========================================================================================
+  js_helpers <- '
+    function getColumnName(fullName) {
+        if (!fullName) return "";
+        var lastBracketPos = fullName.lastIndexOf("[[");
+        if (lastBracketPos > -1) {
+            var lastPart = fullName.substring(lastBracketPos);
+            return lastPart.match(/\\[\\[\\"(.*?)\\"\\]\\]/)[1];
+        } else if (fullName.indexOf("$") > -1) {
+            return fullName.substring(fullName.lastIndexOf("$") + 1);
+        } else {
+            return fullName;
+        }
+    }
+  '
 
   # =========================================================================================
   # Component 1: svymean / svytotal
@@ -126,13 +213,15 @@ local({
     }
     var analysis_vars_str = getValue("analysis_vars1");
     var func = getValue("mean_total_func");
-    var save_name = getValue("save_mean_total.objectname");
     var vars_array = analysis_vars_str.split(/\\s+/).filter(function(n){ return n != "" });
     var clean_vars_array = vars_array.map(getColumnName);
     var formula = "~" + clean_vars_array.join(" + ");
-    echo(save_name + " <- " + func + "(" + formula + ", " + final_svy_obj + ")\\n");
+    echo("svystat_result <- " + func + "(" + formula + ", " + final_svy_obj + ")\\n");
   '
   js_print_mean_total <- '{
+        var save_name = getValue("save_mean_total.objectname");
+        var header_cmd = "rk.header(\\"Survey Stat saved as: " + save_name + "\\",level=3);\\n";
+        echo(header_cmd);
       echo("svystat_result |> as.data.frame() |> rk.results()\\n");
     }
   '
@@ -194,17 +283,19 @@ local({
     var analysis_vars_str = getValue("analysis_vars2");
     var by_vars_str = getValue("by_vars");
     var func = getValue("by_func");
-    var save_name = getValue("save_by.objectname");
     var analysis_vars_array = analysis_vars_str.split(/\\s+/).filter(function(n){ return n != "" });
     var clean_analysis_vars = analysis_vars_array.map(getColumnName);
     var formula = "~" + clean_analysis_vars.join(" + ");
     var by_vars_array = by_vars_str.split(/\\s+/).filter(function(n){ return n != "" });
     var clean_by_vars = by_vars_array.map(getColumnName);
     var by_formula = "~" + clean_by_vars.join(" + ");
-    echo(save_name + " <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\\n");
+    echo("svyby_result <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\\n");
   '
   js_print_by <- '{
-      echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\\n");
+        var save_name = getValue("save_by.objectname");
+        var header_cmd = "rk.header(\\"Survey by saved as: " + save_name + "\\",level=3);\\n";
+        echo(header_cmd);
+        echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\\n");
     }
   '
   by_component <- rk.plugin.component(

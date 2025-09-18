@@ -17,17 +17,34 @@
 		</section>
 	-->
 	<settings>
+		<caption id="tab_BascDsgn" />
 		<setting id="dataframe_object">
 		</setting>
-		<setting id="weight_var">
+		<setting id="id_var">
 		</setting>
 		<setting id="strata_var">
 		</setting>
-		<setting id="id_var">
+		<setting id="weight_var">
+		</setting>
+		<setting id="probs_var">
 		</setting>
 		<setting id="fpc_var">
 		</setting>
 		<setting id="nest_cbox">
+		</setting>
+		<caption id="tab_AdvncdOp" />
+		<setting id="check_strata_cbox">
+		</setting>
+		<setting id="pps_input">
+		</setting>
+		<setting id="variance_pps">
+		</setting>
+		<setting id="calibrate_formula_input">
+		</setting>
+		<caption id="frm_DtbsOptn" />
+		<setting id="dbtype_input">
+		</setting>
+		<setting id="dbname_input">
 		</setting>
 		<setting id="save_survey">
 		</setting>

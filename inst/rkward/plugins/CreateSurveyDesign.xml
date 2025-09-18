@@ -19,15 +19,37 @@
 		-->
 	</logic>
 	<dialog label="Create Complex Survey Design">
-		<row id="row_vSWSIDCFPC">
-			<varselector id="dataframe_selector" />
-			<column id="clm_vSWSIDCFPC">
-				<varslot id="dataframe_object" label="Survey data (data.frame)" source="dataframe_selector" classes="data.frame" required="true" />
-				<varslot id="weight_var" label="Weight variable" source="dataframe_selector" required="true" />
-				<varslot id="strata_var" label="Strata variable (optional)" source="dataframe_selector" />
-				<varslot id="id_var" label="ID/Cluster variable (optional)" source="dataframe_selector" />
-				<varslot id="fpc_var" label="Finite Population Correction (optional)" source="dataframe_selector" />
-				<checkbox id="nest_cbox" label="Nest clusters within strata (nest=TRUE)" value="1" />
+		<row id="row_vSBDBDSIDC">
+			<varselector id="dataframe_selector" label="Select data object" />
+			<column id="clm_tBDBDSIDC1">
+				<tabbook>
+					<tab label="Basic Design" id="tab_BascDsgn">
+						<column id="clm_vSIDC1SWSF">
+							<varslot id="dataframe_object" label="Survey data (data.frame)" source="dataframe_selector" classes="data.frame" required="true" />
+							<varslot id="id_var" label="ID/Cluster variable (~1 for no cluster)" source="dataframe_selector" />
+							<varslot id="strata_var" label="Strata variable (optional)" source="dataframe_selector" />
+							<varslot id="weight_var" label="Weight variable (or use probs)" source="dataframe_selector" />
+							<varslot id="probs_var" label="Sampling probabilities (optional)" source="dataframe_selector" />
+							<varslot id="fpc_var" label="Finite Population Correction (optional)" source="dataframe_selector" />
+							<checkbox id="nest_cbox" label="Nest clusters within strata (nest=TRUE)" value="1" />
+						</column>
+					</tab>
+					<tab label="Advanced Options" id="tab_AdvncdOp">
+						<column id="clm_cCTRUE1PPS">
+							<checkbox id="check_strata_cbox" label="Check nesting of clusters in strata (check.strata=TRUE)" value="1" />
+							<input label="PPS method (e.g., 'brewer') or object" id="pps_input" />
+							<dropdown id="variance_pps" label="PPS variance estimator">
+								<option label="Horvitz-Thompson (default)" value="" />
+								<option label="Yates-Grundy" value="YG" />
+							</dropdown>
+							<input label="Calibration formula (e.g., ~var1+var2)" id="calibrate_formula_input" />
+							<frame label="Database Options (optional)" id="frm_DtbsOptn">
+								<input label="Database type (e.g., 'SQLite')" id="dbtype_input" />
+								<input label="Database name (e.g., 'survey.db')" id="dbname_input" />
+							</frame>
+						</column>
+					</tab>
+				</tabbook>
 				<saveobject label="Save survey design object as" checkable="true" checked="true" initial="survey.design" id="save_survey" />
 			</column>
 		</row>
