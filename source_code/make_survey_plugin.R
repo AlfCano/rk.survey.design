@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.1",
+      version = "0.7.2",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -229,7 +229,7 @@ local({
     "Survey Mean or Total",
     xml = list(dialog = mean_total_dialog),
     js = list(require = "survey",calculate = js_calc_mean_total, printout = js_print_mean_total, results.header="Survey svystat results"),
-    hierarchy = list("Survey", "Survey Mean or Total")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -299,10 +299,10 @@ local({
     }
   '
   by_component <- rk.plugin.component(
-      "Grouped Survey Analysis",
+      "Grouped Survey Analysis (by)",
       xml = list(dialog = by_dialog),
       js = list(require = "survey",calculate = js_calc_by, printout = js_print_by, results.header="Survey by results"),
-      hierarchy = list("Survey", "Grouped Survey Analysis (by)")
+      hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -370,7 +370,7 @@ local({
     "Survey Quantiles",
     xml = list(dialog = quantile_dialog),
     js = list(require = "survey", calculate = js_calc_quantile, printout = js_print_quantile, results.header="Survey Quantiles"),
-    hierarchy = list("Survey", "Survey Quantiles")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -442,7 +442,7 @@ local({
     "Survey Ratio",
     xml = list(dialog = ratio_dialog),
     js = list(require = "survey", calculate = js_calc_ratio, printout = js_print_ratio, results.header="Survey Ratio"),
-    hierarchy = list("Survey", "Survey Ratio")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -514,7 +514,7 @@ local({
     "Survey GLM",
     xml = list(dialog = glm_dialog),
     js = list(require = "survey", calculate = js_calc_glm, printout = js_print_glm, results.header="Survey GLM Results"),
-    hierarchy = list("Survey", "Survey GLM")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -549,7 +549,7 @@ local({
     "Subset Survey Object",
     xml = list(dialog = subset_dialog),
     js = list(require = "survey", calculate = js_calc_subset, printout = js_print_subset),
-    hierarchy = list("Survey", "Subset Survey Object")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -618,7 +618,7 @@ local({
     "Survey Table",
     xml = list(dialog = table_dialog),
     js = list(require = "survey", calculate = js_calc_table, printout = js_print_table, results.header="Survey Table"),
-    hierarchy = list("Survey", "Survey Table")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -693,7 +693,7 @@ local({
     "Survey Chi-squared Test",
     xml = list(dialog = chisq_dialog),
     js = list(require = "survey", calculate = js_calc_chisq, printout = js_print_chisq, results.header="Survey Chi-squared Test"),
-    hierarchy = list("Survey", "Survey Chi-squared Test")
+    hierarchy = list("Survey")
   )
 
   # =========================================================================================
@@ -723,7 +723,7 @@ local({
     components = all_components,
     pluginmap = list(
         name = "Create Survey Design",
-        hierarchy = list("Survey", "Create Survey Design")
+        hierarchy = list("Survey")
     ),
     create = c("pmap", "xml", "js", "desc", "rkh"),
     load = TRUE,

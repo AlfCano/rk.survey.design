@@ -4,8 +4,8 @@
 		this code was generated using the rkwarddev package.
 	perhaps don't make changes here, but in the rkwarddev script instead!
 	-->
-	<code file="GroupedSurveyAnalysis.js" />
-	<help file="GroupedSurveyAnalysis.rkh" />
+	<code file="GroupedSurveyAnalysisby.js" />
+	<help file="GroupedSurveyAnalysisby.rkh" />
 	<!--
 		<dependencies>
 		</dependencies>

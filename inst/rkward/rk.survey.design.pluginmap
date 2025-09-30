@@ -20,8 +20,8 @@
 		name="rk.survey.design"
 		shortinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
 		longinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
-		version="0.7.1"
-		releasedate="2025-09-17"
+		version="0.7.2"
+		releasedate="2025-09-29"
 		url="https://github.com/AlfCano/rk.survey.design"
 		license="GPL (&gt;= 3)"
 	>
@@ -48,9 +48,9 @@
 		</component>
 		<component
 			id="cmp_CrtSrvyDsgnGrpdSrvyAnlyss"
-			label="Grouped Survey Analysis"
+			label="Grouped Survey Analysis (by)"
 			type="standard"
-			file="plugins/GroupedSurveyAnalysis.xml"
+			file="plugins/GroupedSurveyAnalysisby.xml"
 		>
 		</component>
 		<component
@@ -108,118 +108,73 @@
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SrvyMnrTtl"
-				label="Survey Mean or Total"
-			>
-				<entry
-					component="cmp_CreateSurvyDsgnSrvyMnrTtl"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSurvyDsgnSrvyMnrTtl"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_GrpdSrvyAn"
-				label="Grouped Survey Analysis (by)"
-			>
-				<entry
-					component="cmp_CrtSrvyDsgnGrpdSrvyAnlyss"
-				/>
-			</menu>
+			<entry
+				component="cmp_CrtSrvyDsgnGrpdSrvyAnlyss"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SurvyQntls"
-				label="Survey Quantiles"
-			>
-				<entry
-					component="cmp_CreateSurveyDsgnSrvyQntls"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSurveyDsgnSrvyQntls"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SurveyRati"
-				label="Survey Ratio"
-			>
-				<entry
-					component="cmp_CreateSurveyDesignSurvyRt"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSurveyDesignSurvyRt"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SurveyGLM"
-				label="Survey GLM"
-			>
-				<entry
-					component="cmp_CreateSurveyDesignSrvyGLM"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSurveyDesignSrvyGLM"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SbstSrvyOb"
-				label="Subset Survey Object"
-			>
-				<entry
-					component="cmp_CretSrvyDsgnSbstSrvyObjct"
-				/>
-			</menu>
+			<entry
+				component="cmp_CretSrvyDsgnSbstSrvyObjct"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SurveyTabl"
-				label="Survey Table"
-			>
-				<entry
-					component="cmp_CreateSurveyDesignSrvyTbl"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSurveyDesignSrvyTbl"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_SrvyChsqrT"
-				label="Survey Chi-squared Test"
-			>
-				<entry
-					component="cmp_CretSrvyDsgnSrvyChsqrdTst"
-				/>
-			</menu>
+			<entry
+				component="cmp_CretSrvyDsgnSrvyChsqrdTst"
+			/>
 		</menu>
 		<menu
 			id="men_Survey"
 			label="Survey"
 		>
-			<menu
-				id="men_CrtSrvyDsg"
-				label="Create Survey Design"
-			>
-				<entry
-					component="cmp_CreateSrvyDsgnCrtSrvyDsgn"
-				/>
-			</menu>
+			<entry
+				component="cmp_CreateSrvyDsgnCrtSrvyDsgn"
+			/>
 		</menu>
 	</hierarchy>
 	<!--
