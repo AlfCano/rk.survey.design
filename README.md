@@ -3,6 +3,7 @@
 ![Version](https://img.shields.io/badge/Version-0.7.1-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
+[![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
 
@@ -121,5 +122,5 @@ The RKWard output window will display a formatted table showing the mean `api00`
 
 ## Author
 
-Alfonso Cano (alfonso.cano@correo.buap.mx)
-Assisted by Gemini, a large language model from Google.
+* Alfonso Cano (alfonso.cano@correo.buap.mx)  
+* Assisted by Gemini, a large language model from Google.
