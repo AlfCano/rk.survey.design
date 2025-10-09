@@ -532,11 +532,18 @@ local({
         rk.XML.col(svydesign_object_slot6, subset_input6, save_subset)
     )
   )
+  # CORRECTED: Added the for loop to copy .rk.meta attributes.
   js_calc_subset <- '
     var subset_expr = getValue("subset_input6");
     var svy_obj = getValue("svydesign_object6");
     var save_name = getValue("save_subset.objectname");
     echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\\n");
+    // Add the loop to copy metadata
+    echo("for(col_name in names(svy_subset$variables)){\\n");
+    echo("  try({\\n");
+    echo("    attr(svy_subset$variables[[col_name]], \\".rk.meta\\") <- attr(" + svy_obj + "$variables[[col_name]], \\".rk.meta\\")\\n");
+    echo("  }, silent=TRUE)\\n");
+    echo("}\\n");
   '
   js_print_subset <- '
     if(getValue("save_subset") == "1"){

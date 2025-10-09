@@ -18,6 +18,12 @@ function calculate(is_preview){
     var svy_obj = getValue("svydesign_object6");
     var save_name = getValue("save_subset.objectname");
     echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
+    // Add the loop to copy metadata
+    echo("for(col_name in names(svy_subset$variables)){\n");
+    echo("  try({\n");
+    echo("    attr(svy_subset$variables[[col_name]], \".rk.meta\") <- attr(" + svy_obj + "$variables[[col_name]], \".rk.meta\")\n");
+    echo("  }, silent=TRUE)\n");
+    echo("}\n");
   
 }
 

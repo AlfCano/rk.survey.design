@@ -1,11 +1,15 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.7.2-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.7.3-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
+
+## What's New in Version 0.7.3
+
+*   **Preserve Metadata on Subset:** The "Subset Survey Object" plugin now automatically copies variable labels and other RKWard metadata (`.rk.meta`) from the original survey object to the new subsetted object. This ensures that variable descriptions are not lost during filtering operations.
 
 ## Features / Included Plugins
 
@@ -47,7 +51,7 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
     *   Includes options to subset the design and adjust for lonely PSUs.
 
 *   **Subset Survey Object:**
-    *   Filters a design based on a logical condition to create a new, smaller `svydesign` object.
+    *   Filters a design based on a logical condition to create a new, smaller `svydesign` object, preserving variable metadata.
 
 ## Requirements
 
@@ -74,13 +78,12 @@ local({
 ## Preparar
 require(devtools)
 ## Computar
-  install_github(
+  devtools::install_github(
     repo="AlfCano/rk.survey.design"
   )
 ## Imprimir el resultado
 rk.header ("Resultados de Instalar desde git")
 })
-
 ```
 
 3.  Restart RKWard to ensure the new menu items appear correctly.
