@@ -1,0 +1,74 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="LineGraph.js" />
+	<help file="LineGraph.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Line Graph from svyby Object">
+		<row id="row_cDDXFESEXF">
+			<column id="clm_vrslctrdsv">
+				<varselector id="svyby_selector" label="svyby objects" />
+			</column>
+			<column id="clm_tDDXFESEXF">
+				<tabbook>
+					<tab label="Data" id="tab_Data">
+						<column id="clm_vrsltXFESE">
+							<varslot id="svyby_object" label="svyby object to plot" source="svyby_selector" classes="data.frame" required="true" />
+							<varslot id="xaxis_var" label="X-axis variable (e.g., year)" source="svyby_selector" required="true" />
+							<varslot id="facet_var" label="Faceting variable (optional)" source="svyby_selector" />
+							<varslot id="estimate_vars" label="Estimate columns" source="svyby_selector" required="true" multi="true" />
+							<varslot id="se_vars" label="Standard Error columns" source="svyby_selector" required="true" multi="true" />
+						</column>
+					</tab>
+					<tab label="Labels" id="tab_Labels">
+						<column id="clm_iPTVXYYWTC">
+							<input label="Plot Title" id="title_input" />
+							<input label="Variable prefix to remove from legend" id="prefix_clean_input" />
+							<input label="X-axis label" id="xlab_input" initial="Year" />
+							<input label="Y-axis label" id="ylab_input" initial="Weighted Total" />
+							<input label="Color legend title" id="colorlab_input" initial="Category" />
+							<input label="Caption" id="caption_input" initial="Error bars show confidence intervals." />
+						</column>
+					</tab>
+					<tab label="Style &amp; Layout" id="tab_StyleLyt">
+						<column id="clm_sC95199CPC">
+							<spinbox label="Confidence level for error bars (%)" id="conf_level" initial="95" min="1" max="99" />
+							<dropdown id="palette_input" label="Color Palette (ColorBrewer)">
+								<option label="Default (Set1)" value="Set1" checked="true" />
+								<option label="Qualitative: Set2" value="Set2" />
+								<option label="Qualitative: Paired" value="Paired" />
+								<option label="Qualitative: Dark2" value="Dark2" />
+								<option label="Qualitative: Accent" value="Accent" />
+								<option label="Sequential: Blues" value="Blues" />
+								<option label="Sequential: Oranges" value="Oranges" />
+								<option label="Sequential: Greens" value="Greens" />
+								<option label="Diverging: RdYlBu" value="RdYlBu" />
+								<option label="Diverging: Spectral" value="Spectral" />
+							</dropdown>
+							<dropdown id="facet_layout" label="Facet Layout">
+								<option label="Wrap (default)" value="wrap" checked="true" />
+								<option label="Force to one row" value="row" />
+								<option label="Force to one column" value="col" />
+							</dropdown>
+						</column>
+					</tab>
+				</tabbook>
+				<preview label="Preview" id="plot_preview" />
+			</column>
+		</row>
+	</dialog>
+</document>

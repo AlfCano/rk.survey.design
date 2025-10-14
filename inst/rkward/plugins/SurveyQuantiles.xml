@@ -22,7 +22,7 @@
 		<row id="row_v3W3S33A3Q">
 			<varselector id="svydesign_selector3" label="Workspace objects" />
 			<column id="clm_v3S33A3Q02">
-				<varslot id="svydesign_object3" label="Survey design object" source="svydesign_selector3" required="true" />
+				<varslot id="svydesign_object3" label="Survey design object" source="svydesign_selector3" classes="svydesign" required="true" />
 				<varslot id="analysis_var3" label="Analysis variable" source="svydesign_selector3" required="true" />
 				<input label="Quantiles (comma-separated)" id="quantiles_input" initial="0.25, 0.5, 0.75" />
 				<frame label="Subset Option" id="frm_SbstOptn">

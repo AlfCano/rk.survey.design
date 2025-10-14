@@ -19,47 +19,39 @@ function calculate(is_preview){
         var lastBracketPos = fullName.lastIndexOf("[[");
         if (lastBracketPos > -1) {
             var lastPart = fullName.substring(lastBracketPos);
-            return lastPart.match(/\[\[\"(.*?)\"\]\]/)[1];
-        } else if (fullName.indexOf("$") > -1) {
+            var match = lastPart.match(/\[\[\"(.*?)\"\]\]/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (fullName.indexOf("$") > -1) {
             return fullName.substring(fullName.lastIndexOf("$") + 1);
         } else {
             return fullName;
         }
     }
-    var lonely_psu = getValue("lonely_psu_cbox5");
-    if (lonely_psu == "1") {
-        echo("options(survey.lonely.psu=\"adjust\")\n\n");
+
+    function preprocessSurveyOptions(lonely_psu_id, subset_cbox_id, subset_input_id, svy_obj_name) {
+        var lonely_psu = getValue(lonely_psu_id);
+        if (lonely_psu == "1") {
+            echo("options(survey.lonely.psu=\"adjust\")\n\n");
+        }
+        var use_subset = getValue(subset_cbox_id);
+        var subset_expr = getValue(subset_input_id);
+        var final_svy_obj = svy_obj_name;
+        if (use_subset == "1" && subset_expr) {
+            echo("svy_subset <- subset(" + svy_obj_name + ", subset = " + subset_expr + ")\n");
+            final_svy_obj = "svy_subset";
+        }
+        return final_svy_obj;
     }
-    var use_subset = getValue("subset_cbox5");
-    var subset_expr = getValue("subset_input5");
-    var svy_obj = getValue("svydesign_object5");
-    var final_svy_obj = svy_obj;
-    if (use_subset == "1" && subset_expr) {
-        echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
-        final_svy_obj = "svy_subset";
-    }
-    var response_str = getValue("response_var");
-    var predictors_str = getValue("predictor_vars");
-    var save_name = getValue("save_glm.objectname");
-    var clean_response = getColumnName(response_str);
-    var predictors_array = predictors_str.split(/\s+/).filter(function(n){ return n != "" });
-    var clean_predictors = predictors_array.map(getColumnName);
-    var formula = clean_response + " ~ " + clean_predictors.join(" + ");
-    var family_str = "";
-    if (getValue("quasibinomial_cbox") == "1") {
-        family_str = ", family=quasibinomial()";
-    }
-    echo("svyglm_result <- svyglm(" + formula + ", " + final_svy_obj + family_str + ")\n");
-  
+   var f=preprocessSurveyOptions("lonely_psu_cbox5","subset_cbox5","subset_input5",getValue("svydesign_object5"));var r=getColumnName(getValue("response_var"));var p=getValue("predictor_vars").split(/\n/).filter(function(n){return n!=""});var b=r+" ~ "+p.map(getColumnName).join(" + ");var q=getValue("quasibinomial_cbox")=="1"? ", family=quasibinomial()":"";echo("svyglm_result <- svyglm("+b+", "+f+q+")\n");
 }
 
 function printout(is_preview){
 	// printout the results
 	new Header(i18n("Survey GLM Results")).print();
-{
-      echo("rk.print(summary(svyglm_result))\n");
-    }
-  
+echo("rk.print(summary(svyglm_result))\n");
 	//// save result object
 	// read in saveobject variables
 	var saveGlm = getValue("save_glm");

@@ -22,7 +22,7 @@
 		<row id="row_v4W4S4N4D4">
 			<varselector id="svydesign_selector4" label="Workspace objects" />
 			<column id="clm_v4S4N4D4SO">
-				<varslot id="svydesign_object4" label="Survey design object" source="svydesign_selector4" required="true" />
+				<varslot id="svydesign_object4" label="Survey design object" source="svydesign_selector4" classes="svydesign" required="true" />
 				<varslot id="numerator_var" label="Numerator variable" source="svydesign_selector4" required="true" />
 				<varslot id="denominator_var" label="Denominator variable" source="svydesign_selector4" required="true" />
 				<frame label="Subset Option" id="frm_SbstOptn">

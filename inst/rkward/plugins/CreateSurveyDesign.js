@@ -14,74 +14,62 @@ function calculate(is_preview){
 
 	// the R code to be evaluated
 
-    // Get values from UI
-    var dataframe = getValue("dataframe_object");
-    var id_var_full = getValue("id_var");
-    var probs_var_full = getValue("probs_var");
-    var strata_var_full = getValue("strata_var");
-    var fpc_var_full = getValue("fpc_var");
-    var weight_var_full = getValue("weight_var");
-    var nest_option = getValue("nest_cbox");
-    var check_strata_option = getValue("check_strata_cbox");
-    var pps_option = getValue("pps_input");
-    var variance_option = getValue("variance_pps");
-    var calibrate_formula = getValue("calibrate_formula_input");
-    var dbtype_val = getValue("dbtype_input");
-    var dbname_val = getValue("dbname_input");
-
-    // Helper function to extract column name from full object path
     function getColumnName(fullName) {
         if (!fullName) return "";
-        if (fullName.indexOf("[[") > -1) { return fullName.match(/\[\[\"(.*?)\"\]\]/)[1]; }
-        else if (fullName.indexOf("$") > -1) { return fullName.substring(fullName.lastIndexOf("$") + 1); }
-        else { return fullName; }
+        var lastBracketPos = fullName.lastIndexOf("[[");
+        if (lastBracketPos > -1) {
+            var lastPart = fullName.substring(lastBracketPos);
+            var match = lastPart.match(/\[\[\"(.*?)\"\]\]/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (fullName.indexOf("$") > -1) {
+            return fullName.substring(fullName.lastIndexOf("$") + 1);
+        } else {
+            return fullName;
+        }
     }
 
-    // Clean the column names
-    var id_col = getColumnName(id_var_full);
-    var probs_col = getColumnName(probs_var_full);
-    var strata_col = getColumnName(strata_var_full);
-    var fpc_col = getColumnName(fpc_var_full);
-    var weight_col = getColumnName(weight_var_full);
-
-    // Build the options array for the svydesign call
+    function preprocessSurveyOptions(lonely_psu_id, subset_cbox_id, subset_input_id, svy_obj_name) {
+        var lonely_psu = getValue(lonely_psu_id);
+        if (lonely_psu == "1") {
+            echo("options(survey.lonely.psu=\"adjust\")\n\n");
+        }
+        var use_subset = getValue(subset_cbox_id);
+        var subset_expr = getValue(subset_input_id);
+        var final_svy_obj = svy_obj_name;
+        if (use_subset == "1" && subset_expr) {
+            echo("svy_subset <- subset(" + svy_obj_name + ", subset = " + subset_expr + ")\n");
+            final_svy_obj = "svy_subset";
+        }
+        return final_svy_obj;
+    }
+   
+    var dataframe = getValue("dataframe_object");
     var options = new Array();
-
-    if (id_col) { options.push("ids = ~" + id_col); } else { options.push("ids = ~1"); }
-    if (probs_col) { options.push("probs = ~" + probs_col); }
-    if (strata_col) { options.push("strata = ~" + strata_col); }
-    if (fpc_col) { options.push("fpc = ~" + fpc_col); }
-    if (weight_col) { options.push("weights = ~" + weight_col); }
-    if (calibrate_formula) { options.push("calibrate.formula = " + calibrate_formula); }
-
+    var id_col = getColumnName(getValue("id_var"));
+    options.push(id_col ? "ids = ~" + id_col : "ids = ~1");
+    if (getValue("probs_var")) { options.push("probs = ~" + getColumnName(getValue("probs_var"))); }
+    if (getValue("strata_var")) { options.push("strata = ~" + getColumnName(getValue("strata_var"))); }
+    if (getValue("fpc_var")) { options.push("fpc = ~" + getColumnName(getValue("fpc_var"))); }
+    if (getValue("weight_var")) { options.push("weights = ~" + getColumnName(getValue("weight_var"))); }
+    if (getValue("calibrate_formula_input")) { options.push("calibrate.formula = " + getValue("calibrate_formula_input")); }
     options.push("data = " + dataframe);
-
-    if (nest_option == "1"){ options.push("nest=TRUE"); }
-    if (check_strata_option == "1"){ options.push("check.strata=TRUE"); }
-
-    if (pps_option) {
-        options.push("pps = " + pps_option);
-    }
-    if (variance_option) {
-        options.push("variance = \"" + variance_option + "\"");
-    }
-
-    if (dbtype_val) { options.push("dbtype = \"" + dbtype_val + "\""); }
-    if (dbname_val) { options.push("dbname = \"" + dbname_val + "\""); }
-
-    echo('survey.design <- svydesign(' + options.join(', ') + ')\n');
+    if (getValue("nest_cbox") == "1"){ options.push("nest=TRUE"); }
+    if (getValue("check_strata_cbox") == "1"){ options.push("check.strata=TRUE"); }
+    if (getValue("pps_input")) { options.push("pps = " + getValue("pps_input")); }
+    if (getValue("variance_pps")) { options.push("variance = \"" + getValue("variance_pps") + "\""); }
+    if (getValue("dbtype_input")) { options.push("dbtype = \"" + getValue("dbtype_input") + "\""); }
+    if (getValue("dbname_input")) { options.push("dbname = \"" + getValue("dbname_input") + "\""); }
+    echo("survey.design <- svydesign(" + options.join(", ") + ")\n");
   
 }
 
 function printout(is_preview){
 	// printout the results
 	new Header(i18n("Create Survey Design results")).print();
-{
-        var save_name = getValue("save_survey.objectname");
-        var header_cmd = "rk.header(\"Survey design object saved as: " + save_name + "\");\n";
-        echo(header_cmd);
-    }
-  
+echo("rk.header(\"Survey design object saved as: " + getValue("save_survey.objectname") + "\")\n");
 	//// save result object
 	// read in saveobject variables
 	var saveSurvey = getValue("save_survey");

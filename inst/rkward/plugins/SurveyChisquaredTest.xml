@@ -22,7 +22,7 @@
 		<row id="row_v8W8S81V18">
 			<varselector id="svydesign_selector8" label="Workspace objects" />
 			<column id="clm_v8S81V182V">
-				<varslot id="svydesign_object8" label="Survey design object" source="svydesign_selector8" required="true" />
+				<varslot id="svydesign_object8" label="Survey design object" source="svydesign_selector8" classes="svydesign" required="true" />
 				<varslot id="var1_chisq" label="Variable 1" source="svydesign_selector8" required="true" />
 				<varslot id="var2_chisq" label="Variable 2" source="svydesign_selector8" required="true" />
 				<frame label="Subset Option" id="frm_SbstOptn">

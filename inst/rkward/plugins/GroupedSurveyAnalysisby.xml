@@ -22,7 +22,7 @@
 		<row id="row_v2W2S22A2G">
 			<varselector id="svydesign_selector2" label="Workspace objects" />
 			<column id="clm_v2S22A2G2S">
-				<varslot id="svydesign_object2" label="Survey design object" source="svydesign_selector2" required="true" />
+				<varslot id="svydesign_object2" label="Survey design object" source="svydesign_selector2" classes="svydesign" required="true" />
 				<varslot id="analysis_vars2" label="Analysis variables" source="svydesign_selector2" required="true" multi="true" />
 				<varslot id="by_vars" label="Grouping variables (by)" source="svydesign_selector2" required="true" multi="true" />
 				<frame label="Subset Option" id="frm_SbstOptn">

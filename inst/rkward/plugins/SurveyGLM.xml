@@ -22,7 +22,7 @@
 		<row id="row_v5W5S5R5P5">
 			<varselector id="svydesign_selector5" label="Workspace objects" />
 			<column id="clm_v5S5R5P5U1">
-				<varslot id="svydesign_object5" label="Survey design object" source="svydesign_selector5" required="true" />
+				<varslot id="svydesign_object5" label="Survey design object" source="svydesign_selector5" classes="svydesign" required="true" />
 				<varslot id="response_var" label="Response variable" source="svydesign_selector5" required="true" />
 				<varslot id="predictor_vars" label="Predictor variables" source="svydesign_selector5" required="true" multi="true" />
 				<checkbox id="quasibinomial_cbox" label="Use quasibinomial family" value="1" />

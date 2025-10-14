@@ -22,7 +22,7 @@
 		<row id="row_v1W1S11A1S">
 			<varselector id="svydesign_selector1" label="Workspace objects" />
 			<column id="clm_v1S11A1SOS">
-				<varslot id="svydesign_object1" label="Survey design object" source="svydesign_selector1" required="true" />
+				<varslot id="svydesign_object1" label="Survey design object" source="svydesign_selector1" classes="svydesign" required="true" />
 				<varslot id="analysis_vars1" label="Analysis variables" source="svydesign_selector1" required="true" multi="true" />
 				<frame label="Subset Option" id="frm_SbstOptn">
 					<checkbox id="subset_cbox1" label="Subset the survey design" value="1" />

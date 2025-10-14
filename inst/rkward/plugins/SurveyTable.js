@@ -19,45 +19,39 @@ function calculate(is_preview){
         var lastBracketPos = fullName.lastIndexOf("[[");
         if (lastBracketPos > -1) {
             var lastPart = fullName.substring(lastBracketPos);
-            return lastPart.match(/\[\[\"(.*?)\"\]\]/)[1];
-        } else if (fullName.indexOf("$") > -1) {
+            var match = lastPart.match(/\[\[\"(.*?)\"\]\]/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (fullName.indexOf("$") > -1) {
             return fullName.substring(fullName.lastIndexOf("$") + 1);
         } else {
             return fullName;
         }
     }
-    var lonely_psu = getValue("lonely_psu_cbox7");
-    if (lonely_psu == "1") {
-        echo("options(survey.lonely.psu=\"adjust\")\n\n");
+
+    function preprocessSurveyOptions(lonely_psu_id, subset_cbox_id, subset_input_id, svy_obj_name) {
+        var lonely_psu = getValue(lonely_psu_id);
+        if (lonely_psu == "1") {
+            echo("options(survey.lonely.psu=\"adjust\")\n\n");
+        }
+        var use_subset = getValue(subset_cbox_id);
+        var subset_expr = getValue(subset_input_id);
+        var final_svy_obj = svy_obj_name;
+        if (use_subset == "1" && subset_expr) {
+            echo("svy_subset <- subset(" + svy_obj_name + ", subset = " + subset_expr + ")\n");
+            final_svy_obj = "svy_subset";
+        }
+        return final_svy_obj;
     }
-    var use_subset = getValue("subset_cbox7");
-    var subset_expr = getValue("subset_input7");
-    var svy_obj = getValue("svydesign_object7");
-    var final_svy_obj = svy_obj;
-    if (use_subset == "1" && subset_expr) {
-        echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
-        final_svy_obj = "svy_subset";
-    }
-    var row_str = getValue("row_var");
-    var col_str = getValue("col_var");
-    var save_name = getValue("save_table.objectname");
-    var clean_row = getColumnName(row_str);
-    var clean_col = getColumnName(col_str);
-    var formula = "~" + clean_row;
-    if (clean_col) {
-        formula += " + " + clean_col;
-    }
-    echo("svytable_result <- svytable(" + formula + ", " + final_svy_obj + ")\n");
-  
+   var f=preprocessSurveyOptions("lonely_psu_cbox7","subset_cbox7","subset_input7",getValue("svydesign_object7"));var b="~"+getColumnName(getValue("row_var"));if(getValue("col_var")){b+=" + "+getColumnName(getValue("col_var"));}echo("svytable_result<-svytable("+b+", "+f+")\n");
 }
 
 function printout(is_preview){
 	// printout the results
 	new Header(i18n("Survey Table")).print();
-{
-      echo("rk.results(svytable_result)\n");
-    }
-  
+echo("rk.results(svytable_result)\n");
 	//// save result object
 	// read in saveobject variables
 	var saveTable = getValue("save_table");

@@ -19,48 +19,39 @@ function calculate(is_preview){
         var lastBracketPos = fullName.lastIndexOf("[[");
         if (lastBracketPos > -1) {
             var lastPart = fullName.substring(lastBracketPos);
-            return lastPart.match(/\[\[\"(.*?)\"\]\]/)[1];
-        } else if (fullName.indexOf("$") > -1) {
+            var match = lastPart.match(/\[\[\"(.*?)\"\]\]/);
+            if (match) {
+                return match[1];
+            }
+        }
+        if (fullName.indexOf("$") > -1) {
             return fullName.substring(fullName.lastIndexOf("$") + 1);
         } else {
             return fullName;
         }
     }
-    var lonely_psu = getValue("lonely_psu_cbox2");
-    if (lonely_psu == "1") {
-        echo("options(survey.lonely.psu=\"adjust\")\n\n");
+
+    function preprocessSurveyOptions(lonely_psu_id, subset_cbox_id, subset_input_id, svy_obj_name) {
+        var lonely_psu = getValue(lonely_psu_id);
+        if (lonely_psu == "1") {
+            echo("options(survey.lonely.psu=\"adjust\")\n\n");
+        }
+        var use_subset = getValue(subset_cbox_id);
+        var subset_expr = getValue(subset_input_id);
+        var final_svy_obj = svy_obj_name;
+        if (use_subset == "1" && subset_expr) {
+            echo("svy_subset <- subset(" + svy_obj_name + ", subset = " + subset_expr + ")\n");
+            final_svy_obj = "svy_subset";
+        }
+        return final_svy_obj;
     }
-    var use_subset = getValue("subset_cbox2");
-    var subset_expr = getValue("subset_input2");
-    var svy_obj = getValue("svydesign_object2");
-    var final_svy_obj = svy_obj;
-    if (use_subset == "1" && subset_expr) {
-        echo("svy_subset <- subset(" + svy_obj + ", subset = " + subset_expr + ")\n");
-        final_svy_obj = "svy_subset";
-    }
-    var analysis_vars_str = getValue("analysis_vars2");
-    var by_vars_str = getValue("by_vars");
-    var func = getValue("by_func");
-    var analysis_vars_array = analysis_vars_str.split(/\s+/).filter(function(n){ return n != "" });
-    var clean_analysis_vars = analysis_vars_array.map(getColumnName);
-    var formula = "~" + clean_analysis_vars.join(" + ");
-    var by_vars_array = by_vars_str.split(/\s+/).filter(function(n){ return n != "" });
-    var clean_by_vars = by_vars_array.map(getColumnName);
-    var by_formula = "~" + clean_by_vars.join(" + ");
-    echo("svyby_result <- svyby(" + formula + ", " + by_formula + ", " + final_svy_obj + ", " + func + ")\n");
-  
+   var f=preprocessSurveyOptions("lonely_psu_cbox2","subset_cbox2","subset_input2",getValue("svydesign_object2"));var a=getValue("analysis_vars2").split(/\n/).filter(function(n){return n!=""});var b="~"+a.map(getColumnName).join(" + ");var c=getValue("by_vars").split(/\n/).filter(function(n){return n!=""});var d="~"+c.map(getColumnName).join(" + ");echo("svyby_result <- svyby("+b+", "+d+", "+f+", "+getValue("by_func")+")\n");
 }
 
 function printout(is_preview){
 	// printout the results
 	new Header(i18n("Survey by results")).print();
-{
-        var save_name = getValue("save_by.objectname");
-        var header_cmd = "rk.header(\"Survey by saved as: " + save_name + "\",level=3);\n";
-        echo(header_cmd);
-        echo("svyby_result |> as.data.frame() |> rk.results(print.rownames=FALSE)\n");
-    }
-  
+echo("rk.header(\"Survey by saved as: "+getValue("save_by.objectname")+"\",level=3)\n");echo("svyby_result|>as.data.frame()|>rk.results(print.rownames=FALSE)\n");
 	//// save result object
 	// read in saveobject variables
 	var saveBy = getValue("save_by");
