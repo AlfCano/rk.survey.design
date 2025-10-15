@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.4",
+      version = "0.7.6",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -81,7 +81,6 @@ local({
   # =========================================================================================
   # Main Plugin: Create Survey Design
   # =========================================================================================
-  # ... Main plugin definition is unchanged ...
   dataframe_selector <- rk.XML.varselector(id.name = "dataframe_selector", label="Select data object")
   dataframe_object_slot <- rk.XML.varslot(label = "Survey data (data.frame)", source = "dataframe_selector", classes = "data.frame", required = TRUE, id.name = "dataframe_object")
   id_varslot <- rk.XML.varslot(id.name = "id_var", label = "ID/Cluster variable (~1 for no cluster)", source = "dataframe_selector")
@@ -132,9 +131,8 @@ local({
 
   js_print_main <- 'echo("rk.header(\\"Survey design object saved as: " + getValue("save_survey.objectname") + "\\")\\n");'
 
+  # --- Component Definitions ---
 
-  # --- Component Definitions (Existing, unchanged) ---
-  # ... [components 1-8 are defined here]
     # Component 1: svymean / svytotal
   survey_inputs1 <- generate_survey_input(1)
   analysis_vars_slot1 <- rk.XML.varslot(label = "Analysis variables", source = "svydesign_selector1", multi = TRUE, required = TRUE, id.name = "analysis_vars1")
@@ -216,137 +214,11 @@ local({
     hierarchy=list("Survey"))
 
   # =========================================================================================
-  # Component 9: Line Graph for svyby
-  # =========================================================================================
-  svyby_selector <- rk.XML.varselector(id.name = "svyby_selector", label = "svyby objects")
-  svyby_object_slot <- rk.XML.varslot(label = "svyby object to plot", source = "svyby_selector", required = TRUE, id.name = "svyby_object", classes="data.frame")
-  xaxis_var_slot <- rk.XML.varslot(label = "X-axis variable (e.g., year)", source = "svyby_selector", required = TRUE, id.name = "xaxis_var")
-  facet_var_slot <- rk.XML.varslot(label = "Faceting variable (optional)", source = "svyby_selector", id.name = "facet_var")
-  estimate_vars_slot <- rk.XML.varslot(label = "Estimate columns", source = "svyby_selector", multi=TRUE, required = TRUE, id.name = "estimate_vars")
-  se_vars_slot <- rk.XML.varslot(label = "Standard Error columns", source = "svyby_selector", multi=TRUE, required = TRUE, id.name = "se_vars")
-
-  graph_line_dialog <- rk.XML.dialog(
-    label = "Line Graph from svyby Object",
-    child = rk.XML.row(
-      rk.XML.col(svyby_selector),
-      rk.XML.col(
-        rk.XML.tabbook(tabs=list(
-          "Data" = rk.XML.col(svyby_object_slot, xaxis_var_slot, facet_var_slot, estimate_vars_slot, se_vars_slot),
-          "Labels" = rk.XML.col(
-            rk.XML.input(label="Plot Title", id.name="title_input"),
-            rk.XML.input(label="Variable prefix to remove from legend", id.name="prefix_clean_input"),
-            rk.XML.input(label="X-axis label", id.name="xlab_input", initial="Year"),
-            rk.XML.input(label="Y-axis label", id.name="ylab_input", initial="Weighted Total"),
-            rk.XML.input(label="Color legend title", id.name="colorlab_input", initial="Category"),
-            rk.XML.input(label="Caption", id.name="caption_input", initial="Error bars show confidence intervals.")
-          ),
-          "Style & Layout" = rk.XML.col(
-            rk.XML.spinbox(label="Confidence level for error bars (%)", id.name="conf_level", min=1, max=99, initial=95),
-            rk.XML.dropdown(label="Color Palette (ColorBrewer)", id.name="palette_input", options=list(
-              "Default (Set1)"=list(val="Set1",chk=TRUE), "Qualitative: Set2"=list(val="Set2"), "Qualitative: Paired"=list(val="Paired"), "Qualitative: Dark2"=list(val="Dark2"), "Qualitative: Accent"=list(val="Accent"),
-              "Sequential: Blues"=list(val="Blues"), "Sequential: Oranges"=list(val="Oranges"), "Sequential: Greens"=list(val="Greens"),
-              "Diverging: RdYlBu"=list(val="RdYlBu"), "Diverging: Spectral"=list(val="Spectral")
-            )),
-            rk.XML.dropdown(label="Facet Layout", id.name="facet_layout", options=list(
-              "Wrap (default)"=list(val="wrap",chk=TRUE), "Force to one row"=list(val="row"), "Force to one column"=list(val="col")
-            ))
-          )
-        )),
-        rk.XML.preview(id.name="plot_preview")
-      )
-    )
-  )
-
-  js_calc_graph_line <- paste(js_helpers, '
-    var svyby_obj = getValue("svyby_object");
-    if(!svyby_obj) return;
-    var xaxis_clean = getColumnName(getValue("xaxis_var"));
-    var estimate_vars_full = getValue("estimate_vars");
-    var se_vars_full = getValue("se_vars");
-    var prefix_clean = getValue("prefix_clean_input");
-    var facet_var_full = getValue("facet_var");
-    var conf_level = getValue("conf_level") / 100;
-
-    echo("ci_multiplier <- qnorm(1 - (1 - " + conf_level + ") / 2)\\n");
-
-    var estimate_array = estimate_vars_full.split(/\\n/).filter(function(n){ return n != "" }).map(function(item) { return "\\"" + getColumnName(item) + "\\""; });
-    var se_array = se_vars_full.split(/\\n/).filter(function(n){ return n != "" }).map(function(item) { return "\\"" + getColumnName(item) + "\\""; });
-
-    var by_vars = new Array();
-    by_vars.push("\\"" + xaxis_clean + "\\"");
-    by_vars.push("\\"respuesta\\"");
-    var facet_clean = "";
-    if(facet_var_full){
-      facet_clean = getColumnName(facet_var_full);
-      by_vars.push("\\"" + facet_clean + "\\"");
-    }
-
-    echo("est <- " + svyby_obj + "\\n");
-    echo("piv1 <- tidyr::pivot_longer(est, cols=dplyr::all_of(c(" + estimate_array.join(",") + ")), names_to = \\"respuesta\\", values_to = \\"recuento\\")\\n");
-    echo("piv2 <- tidyr::pivot_longer(est, cols=dplyr::all_of(c(" + se_array.join(",") + ")), names_to = \\"variable\\", values_to = \\"se\\")\\n");
-    echo("piv2 <- dplyr::mutate(piv2, respuesta = stringr::str_remove(variable, \\"^se\\\\\\\\.\\"))\\n");
-    echo("piv3 <- dplyr::left_join(piv1, piv2, by = c(" + by_vars.join(", ") + "))\\n");
-
-    if(prefix_clean){
-      echo("piv3[[\\"respuesta\\"]] <- gsub(\\"" + prefix_clean + "\\", \\"\\", piv3[[\\"respuesta\\"]] )\\n");
-    }
-    echo("piv3[[\\"respuesta\\"]] <- forcats::fct_rev(piv3[[\\"respuesta\\"]] )\\n");
-
-    echo("p <- ggplot2::ggplot(piv3, ggplot2::aes(x = " + xaxis_clean + ", y = recuento, color = respuesta, group = respuesta)) +\\n");
-    echo("  ggplot2::geom_line() +\\n");
-    echo("  ggplot2::geom_errorbar(ggplot2::aes(ymin = recuento - ci_multiplier*se, ymax = recuento + ci_multiplier*se), width = 0.2) +\\n");
-    echo("  ggplot2::scale_color_brewer(palette = \\"" + getValue("palette_input") + "\\", labels = function(x) stringr::str_wrap(x, width = 20)) +\\n");
-
-    var labs_list = new Array();
-    var title = getValue("title_input");
-    if(title) { labs_list.push("title = \\"" + title + "\\""); }
-    labs_list.push("x = \\"" + getValue("xlab_input") + "\\"");
-    labs_list.push("y = \\"" + getValue("ylab_input") + "\\"");
-    labs_list.push("color = \\"" + getValue("colorlab_input") + "\\"");
-    labs_list.push("caption = \\"" + getValue("caption_input") + "\\"");
-    echo("  ggplot2::labs(" + labs_list.join(", ") + ") +\\n");
-
-    echo("  ggplot2::theme_bw()\\n");
-
-    if(facet_var_full){
-      var facet_layout = getValue("facet_layout");
-      var facet_opts = "";
-      if (facet_layout == "row") { facet_opts = ", nrow = 1"; }
-      else if (facet_layout == "col") { facet_opts = ", ncol = 1"; }
-      echo("p <- p + ggplot2::facet_wrap(~ " + facet_clean + facet_opts + ")\\n");
-    }
-  ')
-
-  js_print_graph_line <- '
-    if(!is_preview){
-      echo("rk.graph.on()\\n");
-    }
-    echo("try({\\n");
-    echo("  print(p)\\n");
-    echo("})\\n");
-    if(!is_preview){
-      echo("rk.graph.off()\\n");
-    }
-  '
-
-  graph_line_component <- rk.plugin.component(
-    "Line Graph",
-    xml = list(dialog = graph_line_dialog),
-    js = list(
-      require = c("survey", "dplyr", "ggplot2", "tidyr", "forcats", "stringr", "RColorBrewer"),
-      calculate = js_calc_graph_line,
-      printout = js_print_graph_line
-    ),
-    hierarchy = list("Survey","Graphs","ggGraphs")
-  )
-
-  # =========================================================================================
   # Final Plugin Skeleton Call
   # =========================================================================================
   all_components <- list(
     mean_total_component, by_component, quantile_component, ratio_component,
-    glm_component, subset_component, table_component, chisq_component,
-    graph_line_component
+    glm_component, subset_component, table_component, chisq_component
   )
 
   rk.plugin.skeleton(
@@ -366,7 +238,7 @@ local({
     show = FALSE
   )
 
-  cat("\nFully optimized plugin package 'rk.survey.design' with 10 plugins generated.\n\nTo complete installation:\n\n")
+  cat("\nCleaned plugin package 'rk.survey.design' with 9 plugins generated.\n\nTo complete installation:\n\n")
   cat("  rk.updatePluginMessages(plugin.dir=\"rk.survey.design\")\n\n")
   cat("  devtools::install(\"rk.survey.design\")\n")
 })
