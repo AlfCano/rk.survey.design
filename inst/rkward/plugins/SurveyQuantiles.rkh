@@ -16,8 +16,6 @@
 	<settings>
 		<setting id="svydesign_object3">
 		</setting>
-		<setting id="analysis_var3">
-		</setting>
 		<setting id="quantiles_input">
 		</setting>
 		<caption id="frm_SbstOptn" />

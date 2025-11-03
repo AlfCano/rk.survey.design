@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.6",
+      version = "0.7.8",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -133,7 +133,7 @@ local({
 
   # --- Component Definitions ---
 
-    # Component 1: svymean / svytotal
+  # Component 1: svymean / svytotal
   survey_inputs1 <- generate_survey_input(1)
   analysis_vars_slot1 <- rk.XML.varslot(label = "Analysis variables", source = "svydesign_selector1", multi = TRUE, required = TRUE, id.name = "analysis_vars1")
   attr(analysis_vars_slot1, "source_property") <- "variables"
@@ -142,23 +142,113 @@ local({
     js=list(require="survey", calculate=paste(js_helpers, 'var f=preprocessSurveyOptions("lonely_psu_cbox1","subset_cbox1","subset_input1",getValue("svydesign_object1"));var a=getValue("analysis_vars1").split(/\\n/).filter(function(n){return n!=""});var b="~"+a.map(getColumnName).join(" + ");echo("svystat_result <- "+getValue("mean_total_func")+"("+b+", "+f+")\\n");'), printout='echo("rk.header(\\"Survey Stat saved as: "+getValue("save_mean_total.objectname")+"\\",level=3)\\n");echo("svystat_result|>as.data.frame()|>rk.results()\\n");', results.header="Survey svystat results"),
     hierarchy=list("Survey"))
 
-  # Component 2: svyby
+  # =========================================================================================
+  # Component 2: svyby (MODIFIED SECTION)
+  # =========================================================================================
   survey_inputs2 <- generate_survey_input(2)
   analysis_vars_slot2 <- rk.XML.varslot(label="Analysis variables", source="svydesign_selector2", multi=TRUE, required=TRUE, id.name="analysis_vars2")
   attr(analysis_vars_slot2, "source_property") <- "variables"
   by_vars_slot <- rk.XML.varslot(label="Grouping variables (by)", source="svydesign_selector2", multi=TRUE, required=TRUE, id.name="by_vars")
   attr(by_vars_slot, "source_property") <- "variables"
+
+  # Define content for the "Options" tab
+  by_options_tab_content <- rk.XML.col(
+    rk.XML.frame(label="General", child=rk.XML.col(
+      rk.XML.cbox(label="Define row names based on subsets (keep.names)", id.name="by_keep_names_cbox", value="1", chk=TRUE),
+      rk.XML.cbox(label="Drop empty groups (drop.empty.groups)", id.name="by_drop_empty_cbox", value="1", chk=TRUE),
+      rk.XML.cbox(label="Omit groups defined by NA in 'by' variables (na.rm.by)", id.name="by_na_rm_by_cbox", value="1", chk=TRUE),
+      rk.XML.cbox(label="Treat groups with no non-missing obs as empty (na.rm.all)", id.name="by_na_rm_all_cbox", value="1"),
+      rk.XML.cbox(label="Convert string variables to factors (stringsAsFactors)", id.name="by_strings_cbox", value="1"),
+      rk.XML.cbox(label="Print a label for each subset as it is processed (verbose)", id.name="by_verbose_cbox", value="1")
+    )),
+    rk.XML.frame(label="Variability", child=rk.XML.col(
+      rk.XML.frame(label="Report as (vartype)", child=rk.XML.row(
+          rk.XML.cbox(label="SE", id.name="by_vartype_se_cbox", value="1", chk=TRUE),
+          rk.XML.cbox(label="CI", id.name="by_vartype_ci_cbox", value="1"),
+          rk.XML.cbox(label="VAR", id.name="by_vartype_var_cbox", value="1"),
+          rk.XML.cbox(label="CV", id.name="by_vartype_cv_cbox", value="1")
+      )),
+      rk.XML.frame(label="Confidence Interval Options", child=rk.XML.col(
+          rk.XML.spinbox(label="Confidence level", id.name="by_level_spin", min=0, max=1, initial=0.95, real=TRUE),
+          rk.XML.input(label="Degrees of freedom (e.g., degf(design))", id.name="by_df_input"),
+          rk.XML.input(label="Parameters for CI (names or numbers)", id.name="by_parm_input")
+      ))
+    ))
+  )
+
+  # NEW: Define content for the "Computation & Output" tab
+  by_computation_tab_content <- rk.XML.col(
+    generate_subset_frame(2),
+    generate_lonely_psu_cbox(2),
+    rk.XML.frame(label="Advanced Computation", child=rk.XML.col(
+      rk.XML.cbox(label="Extract standard errors from svystat object (keep.var)", id.name="by_keep_var_cbox", value="1", chk=TRUE),
+      rk.XML.cbox(label="Compute covariances between estimates (covmat)", id.name="by_covmat_cbox", value="1"),
+      rk.XML.cbox(label="Return all replicates (return.replicates)", id.name="by_replicates_cbox", value="1"),
+      rk.XML.cbox(label="Return influence functions (influence)", id.name="by_influence_cbox", value="1"),
+      rk.XML.cbox(label="Use multicore processing (multicore)", id.name="by_multicore_cbox", value="1")
+    )),
+    rk.XML.saveobj(label="Save result as", initial="svyby_result", chk=TRUE, id.name="save_by")
+  )
+
   by_component <- rk.plugin.component("Grouped Survey Analysis (by)",
-    xml=list(dialog=rk.XML.dialog(label="Grouped Survey Analysis (by)", child=rk.XML.row(survey_inputs2$selector, rk.XML.col(survey_inputs2$slot, analysis_vars_slot2, by_vars_slot, generate_subset_frame(2), rk.XML.dropdown(label="Function (FUN)", options=list("Mean"=list(val="svymean", chk=TRUE), "Total"=list(val="svytotal")), id.name="by_func"), generate_lonely_psu_cbox(2), rk.XML.saveobj(label="Save result as", initial="svyby_result", chk=TRUE, id.name="save_by"))))),
-    js=list(require="survey", calculate=paste(js_helpers, 'var f=preprocessSurveyOptions("lonely_psu_cbox2","subset_cbox2","subset_input2",getValue("svydesign_object2"));var a=getValue("analysis_vars2").split(/\\n/).filter(function(n){return n!=""});var b="~"+a.map(getColumnName).join(" + ");var c=getValue("by_vars").split(/\\n/).filter(function(n){return n!=""});var d="~"+c.map(getColumnName).join(" + ");echo("svyby_result <- svyby("+b+", "+d+", "+f+", "+getValue("by_func")+")\\n");'), printout='echo("rk.header(\\"Survey by saved as: "+getValue("save_by.objectname")+"\\",level=3)\\n");echo("svyby_result|>as.data.frame()|>rk.results(print.rownames=FALSE)\\n");', results.header="Survey by results"),
+    xml=list(dialog=rk.XML.dialog(label="Grouped Survey Analysis (by)", child=rk.XML.row(survey_inputs2$selector, rk.XML.col(
+      rk.XML.tabbook(tabs=list(
+        "Data" = rk.XML.col(
+          survey_inputs2$slot,
+          analysis_vars_slot2,
+          by_vars_slot,
+          rk.XML.dropdown(label="Function (FUN)", options=list("Mean"=list(val="svymean", chk=TRUE), "Total"=list(val="svytotal")), id.name="by_func")
+        ),
+        "Options" = by_options_tab_content,
+        "Computation & Output" = by_computation_tab_content
+      ))
+    )))),
+    js=list(require="survey", calculate=paste(js_helpers, '
+      var by_options = [];
+      if (getValue("by_keep_var_cbox") != "1") { by_options.push("keep.var=FALSE"); }
+      if (getValue("by_keep_names_cbox") != "1") { by_options.push("keep.names=FALSE"); }
+      if (getValue("by_verbose_cbox") == "1") { by_options.push("verbose=TRUE"); }
+      if (getValue("by_drop_empty_cbox") != "1") { by_options.push("drop.empty.groups=FALSE"); }
+      if (getValue("by_na_rm_by_cbox") != "1") { by_options.push("na.rm.by=FALSE"); }
+      if (getValue("by_na_rm_all_cbox") == "1") { by_options.push("na.rm.all=TRUE"); }
+      if (getValue("by_covmat_cbox") == "1") { by_options.push("covmat=TRUE"); }
+      if (getValue("by_replicates_cbox") == "1") { by_options.push("return.replicates=TRUE"); }
+      if (getValue("by_influence_cbox") == "1") { by_options.push("influence=TRUE"); }
+      if (getValue("by_multicore_cbox") == "1") { by_options.push("multicore=TRUE"); }
+      if (getValue("by_strings_cbox") == "1") { by_options.push("stringsAsFactors=TRUE"); }
+
+      var vartypes = [];
+      if (getValue("by_vartype_se_cbox") == "1") { vartypes.push("\\"se\\""); }
+      if (getValue("by_vartype_ci_cbox") == "1") { vartypes.push("\\"ci\\""); }
+      if (getValue("by_vartype_var_cbox") == "1") { vartypes.push("\\"variance\\""); }
+      if (getValue("by_vartype_cv_cbox") == "1") { vartypes.push("\\"cv\\""); }
+      if (vartypes.length > 0 && vartypes.length < 4) { by_options.push("vartype = c(" + vartypes.join(", ") + ")"); }
+
+      if (getValue("by_parm_input")) { by_options.push("parm = " + getValue("by_parm_input")); }
+      if (getValue("by_level_spin") != "0.95") { by_options.push("level = " + getValue("by_level_spin")); }
+      if (getValue("by_df_input")) { by_options.push("df = " + getValue("by_df_input")); }
+
+      var f=preprocessSurveyOptions("lonely_psu_cbox2","subset_cbox2","subset_input2",getValue("svydesign_object2"));
+      var a=getValue("analysis_vars2").split(/\\n/).filter(function(n){return n!=""});
+      var b="~"+a.map(getColumnName).join(" + ");
+      var c=getValue("by_vars").split(/\\n/).filter(function(n){return n!=""});
+      var d="~"+c.map(getColumnName).join(" + ");
+      var final_opts = by_options.length > 0 ? ", " + by_options.join(", ") : "";
+
+      echo("svyby_result <- svyby(" + b + ", " + d + ", " + f + ", " + getValue("by_func") + final_opts + ")\\n");
+    '), printout='echo("rk.header(\\"Survey by saved as: "+getValue("save_by.objectname")+"\\",level=3)\\n");echo("svyby_result|>as.data.frame()|>rk.results(print.rownames=FALSE)\\n");', results.header="Survey by results"),
     hierarchy=list("Survey"))
+
+  # =========================================================================================
+  # Other Components (Unchanged)
+  # =========================================================================================
 
   # Component 3: svyquantile
   survey_inputs3 <- generate_survey_input(3)
   analysis_var_slot3 <- rk.XML.varslot(label="Analysis variable", source="svydesign_selector3", required=TRUE, id.name="analysis_var3")
   attr(analysis_var_slot3, "source_property") <- "variables"
   quantile_component <- rk.plugin.component("Survey Quantiles",
-    xml=list(dialog=rk.XML.dialog(label="Survey Quantiles", child=rk.XML.row(survey_inputs3$selector, rk.XML.col(survey_inputs3$slot, analysis_var_slot3, rk.XML.input(label="Quantiles (comma-separated)", initial="0.25, 0.5, 0.75", id.name="quantiles_input"), generate_subset_frame(3), generate_lonely_psu_cbox(3), rk.XML.saveobj(label="Save result as", initial="svyquantile_result", chk=TRUE, id.name="save_quantile"))))),
+    xml=list(dialog=rk.XML.dialog(label="Survey Quantiles", child=rk.XML.row(survey_inputs3$selector, rk.XML.col(survey_inputs3$slot, rk.XML.input(label="Quantiles (comma-separated)", initial="0.25, 0.5, 0.75", id.name="quantiles_input"), generate_subset_frame(3), generate_lonely_psu_cbox(3), rk.XML.saveobj(label="Save result as", initial="svyquantile_result", chk=TRUE, id.name="save_quantile"))))),
     js=list(require="survey", calculate=paste(js_helpers, 'var f=preprocessSurveyOptions("lonely_psu_cbox3","subset_cbox3","subset_input3",getValue("svydesign_object3"));var b="~"+getColumnName(getValue("analysis_var3"));echo("svyquantile_result <- svyquantile("+b+", "+f+", quantiles=c("+getValue("quantiles_input")+"))\\n");'), printout='echo("result_name<-names(svyquantile_result)\\nfor(e in result_name){\\nrk.header(paste0(\\"Quantiles for variable: \\",e),level=3)\\nsvyquantile_result[[e]]|>as.data.frame()|>rk.results()\\n}\\n");', results.header="Survey Quantiles"),
     hierarchy=list("Survey"))
 

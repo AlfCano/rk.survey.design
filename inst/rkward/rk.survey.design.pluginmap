@@ -20,8 +20,8 @@
 		name="rk.survey.design"
 		shortinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
 		longinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
-		version="0.7.6"
-		releasedate="2025-10-15"
+		version="0.7.8"
+		releasedate="2025-11-03"
 		url="https://github.com/AlfCano/rk.survey.design"
 		license="GPL (&gt;= 3)"
 	>

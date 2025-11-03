@@ -19,22 +19,74 @@
 		-->
 	</logic>
 	<dialog label="Grouped Survey Analysis (by)">
-		<row id="row_v2W2S22A2G">
+		<row id="row_v2WDD2S22A">
 			<varselector id="svydesign_selector2" label="Workspace objects" />
-			<column id="clm_v2S22A2G2S">
-				<varslot id="svydesign_object2" label="Survey design object" source="svydesign_selector2" classes="svydesign" required="true" />
-				<varslot id="analysis_vars2" label="Analysis variables" source="svydesign_selector2" required="true" multi="true" />
-				<varslot id="by_vars" label="Grouping variables (by)" source="svydesign_selector2" required="true" multi="true" />
-				<frame label="Subset Option" id="frm_SbstOptn">
-					<checkbox id="subset_cbox2" label="Subset the survey design" value="1" />
-					<input label="Subset expression" id="subset_input2" />
-				</frame>
-				<dropdown id="by_func" label="Function (FUN)">
-					<option label="Mean" value="svymean" checked="true" />
-					<option label="Total" value="svytotal" />
-				</dropdown>
-				<checkbox id="lonely_psu_cbox2" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
-				<saveobject label="Save result as" checkable="true" checked="true" initial="svyby_result" id="save_by" />
+			<column id="clm_tDD2S22A2G">
+				<tabbook>
+					<tab label="Data" id="tab_Data">
+						<column id="clm_v2S22A2G2F">
+							<varslot id="svydesign_object2" label="Survey design object" source="svydesign_selector2" classes="svydesign" required="true" />
+							<varslot id="analysis_vars2" label="Analysis variables" source="svydesign_selector2" required="true" multi="true" />
+							<varslot id="by_vars" label="Grouping variables (by)" source="svydesign_selector2" required="true" multi="true" />
+							<dropdown id="by_func" label="Function (FUN)">
+								<option label="Mean" value="svymean" checked="true" />
+								<option label="Total" value="svytotal" />
+							</dropdown>
+						</column>
+					</tab>
+					<tab label="Options" id="tab_Options">
+						<column id="clm_fGGD1D1ONA">
+							<frame label="General" id="frm_General">
+								<column id="clm_cD1D1ONA1T">
+									<checkbox id="by_keep_names_cbox" label="Define row names based on subsets (keep.names)" value="1" checked="true" />
+									<checkbox id="by_drop_empty_cbox" label="Drop empty groups (drop.empty.groups)" value="1" checked="true" />
+									<checkbox id="by_na_rm_by_cbox" label="Omit groups defined by NA in 'by' variables (na.rm.by)" value="1" checked="true" />
+									<checkbox id="by_na_rm_all_cbox" label="Treat groups with no non-missing obs as empty (na.rm.all)" value="1" />
+									<checkbox id="by_strings_cbox" label="Convert string variables to factors (stringsAsFactors)" value="1" />
+									<checkbox id="by_verbose_cbox" label="Print a label for each subset as it is processed (verbose)" value="1" />
+								</column>
+							</frame>
+							<frame label="Variability" id="frm_Variblty">
+								<column id="clm_fRRSE1CI1V">
+									<frame label="Report as (vartype)" id="frm_Rprtsvrt">
+										<row id="row_cSE1CI1VAR">
+											<checkbox id="by_vartype_se_cbox" label="SE" value="1" checked="true" />
+											<checkbox id="by_vartype_ci_cbox" label="CI" value="1" />
+											<checkbox id="by_vartype_var_cbox" label="VAR" value="1" />
+											<checkbox id="by_vartype_cv_cbox" label="CV" value="1" />
+										</row>
+									</frame>
+									<frame label="Confidence Interval Options" id="frm_CnfdncIO">
+										<column id="clm_sC09501DPC">
+											<spinbox label="Confidence level" id="by_level_spin" initial="0.95" min="0" max="1" />
+											<input label="Degrees of freedom (e.g., degf(design))" id="by_df_input" />
+											<input label="Parameters for CI (names or numbers)" id="by_parm_input" />
+										</column>
+									</frame>
+								</column>
+							</frame>
+						</column>
+					</tab>
+					<tab label="Computation &amp; Output" id="tab_CmpttnOt">
+						<column id="clm_fSOSO2S1S2">
+							<frame label="Subset Option" id="frm_SbstOptn">
+								<checkbox id="subset_cbox2" label="Subset the survey design" value="1" />
+								<input label="Subset expression" id="subset_input2" />
+							</frame>
+							<checkbox id="lonely_psu_cbox2" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
+							<frame label="Advanced Computation" id="frm_AdvncdCm">
+								<column id="clm_cE1C1R1R1U">
+									<checkbox id="by_keep_var_cbox" label="Extract standard errors from svystat object (keep.var)" value="1" checked="true" />
+									<checkbox id="by_covmat_cbox" label="Compute covariances between estimates (covmat)" value="1" />
+									<checkbox id="by_replicates_cbox" label="Return all replicates (return.replicates)" value="1" />
+									<checkbox id="by_influence_cbox" label="Return influence functions (influence)" value="1" />
+									<checkbox id="by_multicore_cbox" label="Use multicore processing (multicore)" value="1" />
+								</column>
+							</frame>
+							<saveobject label="Save result as" checkable="true" checked="true" initial="svyby_result" id="save_by" />
+						</column>
+					</tab>
+				</tabbook>
 			</column>
 		</row>
 	</dialog>

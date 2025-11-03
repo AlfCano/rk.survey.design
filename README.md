@@ -1,15 +1,23 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.7.6-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.7.8-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
 
-## What's New in Version 0.7.3
+## What's New in Version 0.7.8
 
-*   **Preserve Metadata on Subset:** The "Subset Survey Object" plugin now automatically copies variable labels and other RKWard metadata (`.rk.meta`) from the original survey object to the new subsetted object. This ensures that variable descriptions are not lost during filtering operations.
+*   **Major Overhaul of "Grouped Survey Analysis (by)" Plugin:** The `svyby` interface has been completely redesigned for clarity and power, with options now organized across three dedicated tabs:
+    *   **Data Tab:** For core variable selection.
+    *   **Options Tab:** Provides granular control over the analysis, including:
+        *   Full control over variability reporting (`vartype`: SE, CI, VAR, CV).
+        *   Detailed options for confidence intervals (`level`, `df`).
+        *   Extensive options for handling groups, names, and NAs.
+    *   **Computation & Output Tab:** Houses options for subsetting, advanced computation (`covmat`, `multicore`, `return.replicates`), and saving the final object.
+
+*   **Preserve Metadata on Subset:** The "Subset Survey Object" plugin automatically copies variable labels and other RKWard metadata (`.rk.meta`) from the original survey object to the new subsetted object.
 
 ## Features / Included Plugins
 
@@ -18,7 +26,7 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 *   **Create Survey Design:**
     *   The cornerstone of the package. This plugin uses `survey::svydesign()` to create a `svydesign` object.
     *   Allows specification of weights, strata, cluster IDs (PSUs), and Finite Population Correction (FPC).
-    *   Includes an option for nested designs.
+    *   Includes advanced options for nesting, calibration, and database-backed designs.
 
 *   **Survey Mean or Total:**
     *   Calculates the survey-weighted mean (`svymean`) or total (`svytotal`) for one or more variables.
@@ -27,7 +35,7 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 *   **Grouped Survey Analysis (by):**
     *   Performs grouped analysis using `survey::svyby()`.
     *   Calculates means or totals of analysis variables for each subgroup defined by grouping variables.
-    *   Includes options to subset the design and adjust for lonely PSUs.
+    *   **Features a multi-tab interface** with comprehensive control over nearly all `svyby` arguments, including variability reporting, NA handling, confidence intervals, and advanced computation toggles (`covmat`, `multicore`).
 
 *   **Survey Quantiles:**
     *   Calculates survey-weighted quantiles (e.g., quartiles, deciles) for a variable using `survey::svyquantile()`.
@@ -56,37 +64,22 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 ## Requirements
 
 1.  A working installation of **RKWard**.
-2.  The R package **`survey`**. If you do not have it, install it from the R console:
-    ```R
-    install.packages("survey")
-    ```
-3.  The R package **`devtools`** is required for installation from the source code.
-    ```R
-    install.packages("devtools")
-    ```
-
+2.  The R package **`survey`**.
+3.  The R package **`remotes`** (or `devtools`) for installation.
 
 ## Installation
 
-To install the `rk.survey.design` plugin package, you need the source code (e.g., by downloading it from GitHub).
-
 1.  Open RKWard.
-2.  Run the following commands in the R console:
-
-```R
-local({
-## Preparar
-require(devtools)
-## Computar
-  devtools::install_github(
-    repo="AlfCano/rk.survey.design"
-  )
-## Imprimir el resultado
-rk.header ("Resultados de Instalar desde git")
-})
-```
-
+2.  Run the following command in the R console to install the plugin directly from GitHub:
+    ```R
+    remotes::install_github("AlfCano/rk.survey.design")
+    ```
 3.  Restart RKWard to ensure the new menu items appear correctly.
+
+If you are missing any of these packages, you can install them from the R console:
+```R
+install.packages(c("survey", "remotes"))
+```
 
 ## Usage Workflow Example
 
@@ -125,5 +118,6 @@ The RKWard output window will display a formatted table showing the mean `api00`
 
 ## Author
 
-* Alfonso Cano (alfonso.cano@correo.buap.mx)  
-* Assisted by Gemini, a large language model from Google.
+*   Alfonso Cano (alfonso.cano@correo.buap.mx)
+*   Assisted by Gemini, a large language model from Google.
+

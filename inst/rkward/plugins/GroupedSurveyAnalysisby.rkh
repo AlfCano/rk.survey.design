@@ -14,20 +14,64 @@
 		</section>
 	-->
 	<settings>
+		<caption id="tab_Data" />
 		<setting id="svydesign_object2">
 		</setting>
 		<setting id="analysis_vars2">
 		</setting>
 		<setting id="by_vars">
 		</setting>
+		<setting id="by_func">
+		</setting>
+		<caption id="tab_Options" />
+		<caption id="frm_General" />
+		<setting id="by_keep_names_cbox">
+		</setting>
+		<setting id="by_drop_empty_cbox">
+		</setting>
+		<setting id="by_na_rm_by_cbox">
+		</setting>
+		<setting id="by_na_rm_all_cbox">
+		</setting>
+		<setting id="by_strings_cbox">
+		</setting>
+		<setting id="by_verbose_cbox">
+		</setting>
+		<caption id="frm_Variblty" />
+		<caption id="frm_Rprtsvrt" />
+		<setting id="by_vartype_se_cbox">
+		</setting>
+		<setting id="by_vartype_ci_cbox">
+		</setting>
+		<setting id="by_vartype_var_cbox">
+		</setting>
+		<setting id="by_vartype_cv_cbox">
+		</setting>
+		<caption id="frm_CnfdncIO" />
+		<setting id="by_level_spin">
+		</setting>
+		<setting id="by_df_input">
+		</setting>
+		<setting id="by_parm_input">
+		</setting>
+		<caption id="tab_CmpttnOt" />
 		<caption id="frm_SbstOptn" />
 		<setting id="subset_cbox2">
 		</setting>
 		<setting id="subset_input2">
 		</setting>
-		<setting id="by_func">
-		</setting>
 		<setting id="lonely_psu_cbox2">
+		</setting>
+		<caption id="frm_AdvncdCm" />
+		<setting id="by_keep_var_cbox">
+		</setting>
+		<setting id="by_covmat_cbox">
+		</setting>
+		<setting id="by_replicates_cbox">
+		</setting>
+		<setting id="by_influence_cbox">
+		</setting>
+		<setting id="by_multicore_cbox">
 		</setting>
 		<setting id="save_by">
 		</setting>
