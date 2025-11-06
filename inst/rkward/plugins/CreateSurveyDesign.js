@@ -46,6 +46,9 @@ function calculate(is_preview){
         return final_svy_obj;
     }
    
+    if(getValue("main_lonely_psu_cbox") == "1"){
+      echo("options(survey.lonely.psu = \"adjust\")\n\n");
+    }
     var dataframe = getValue("dataframe_object");
     var options = new Array();
     var id_col = getColumnName(getValue("id_var"));

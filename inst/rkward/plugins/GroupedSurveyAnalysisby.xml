@@ -73,6 +73,7 @@
 								<checkbox id="subset_cbox2" label="Subset the survey design" value="1" />
 								<input label="Subset expression" id="subset_input2" />
 							</frame>
+							<checkbox id="by_omit_na_cbox" label="Omit cases with NA in selected variables" value="1" checked="true" />
 							<checkbox id="lonely_psu_cbox2" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
 							<frame label="Advanced Computation" id="frm_AdvncdCm">
 								<column id="clm_cE1C1R1R1U">

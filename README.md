@@ -1,23 +1,17 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.7.8-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.7.9-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
 
-## What's New in Version 0.7.8
 
-*   **Major Overhaul of "Grouped Survey Analysis (by)" Plugin:** The `svyby` interface has been completely redesigned for clarity and power, with options now organized across three dedicated tabs:
-    *   **Data Tab:** For core variable selection.
-    *   **Options Tab:** Provides granular control over the analysis, including:
-        *   Full control over variability reporting (`vartype`: SE, CI, VAR, CV).
-        *   Detailed options for confidence intervals (`level`, `df`).
-        *   Extensive options for handling groups, names, and NAs.
-    *   **Computation & Output Tab:** Houses options for subsetting, advanced computation (`covmat`, `multicore`, `return.replicates`), and saving the final object.
+## What's New in Version 0.7.9
 
-*   **Preserve Metadata on Subset:** The "Subset Survey Object" plugin automatically copies variable labels and other RKWard metadata (`.rk.meta`) from the original survey object to the new subsetted object.
+*   **Global Lonely PSU Handling:** A new option has been added to the main **Create Survey Design** plugin. You can now set `options(survey.lonely.psu = "adjust")` globally when creating your design object. This is the recommended conservative approach for handling strata with a single Primary Sampling Unit (PSU) and will apply to all subsequent analyses using that design.
+*   **Automatic NA Removal for `svyby`:** The **Grouped Survey Analysis (by)** plugin now includes a convenient checkbox to automatically omit cases where any of the selected analysis or grouping variables have missing values (`NA`). This pre-filters the data, ensuring the analysis runs smoothly without errors caused by missing data.
 
 ## Features / Included Plugins
 

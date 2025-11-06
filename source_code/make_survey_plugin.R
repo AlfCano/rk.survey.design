@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.8",
+      version = "0.7.9",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -98,6 +98,8 @@ local({
         rk.XML.tabbook(tabs = list(
             "Basic Design" = rk.XML.col(dataframe_object_slot, id_varslot, strata_varslot, weight_varslot, probs_varslot, fpc_varslot, rk.XML.cbox(label="Nest clusters within strata (nest=TRUE)", id.name="nest_cbox", value="1")),
             "Advanced Options" = rk.XML.col(
+              # MODIFIED: Removed chk=TRUE
+              rk.XML.cbox(label="Adjust for lonely PSUs globally (survey.lonely.psu = 'adjust')", id.name="main_lonely_psu_cbox", value="1"),
               rk.XML.cbox(label="Check nesting of clusters in strata (check.strata=TRUE)", id.name="check_strata_cbox", value="1"),
               rk.XML.input(label = "PPS method (e.g., 'brewer') or object", id.name = "pps_input"),
               rk.XML.dropdown(label="PPS variance estimator", options=list("Horvitz-Thompson (default)"=list(val=""), "Yates-Grundy"=list(val="YG")), id.name="variance_pps"),
@@ -110,6 +112,9 @@ local({
   )
 
   js_calc_main <- paste(js_helpers, '
+    if(getValue("main_lonely_psu_cbox") == "1"){
+      echo("options(survey.lonely.psu = \\"adjust\\")\\n\\n");
+    }
     var dataframe = getValue("dataframe_object");
     var options = new Array();
     var id_col = getColumnName(getValue("id_var"));
@@ -142,16 +147,13 @@ local({
     js=list(require="survey", calculate=paste(js_helpers, 'var f=preprocessSurveyOptions("lonely_psu_cbox1","subset_cbox1","subset_input1",getValue("svydesign_object1"));var a=getValue("analysis_vars1").split(/\\n/).filter(function(n){return n!=""});var b="~"+a.map(getColumnName).join(" + ");echo("svystat_result <- "+getValue("mean_total_func")+"("+b+", "+f+")\\n");'), printout='echo("rk.header(\\"Survey Stat saved as: "+getValue("save_mean_total.objectname")+"\\",level=3)\\n");echo("svystat_result|>as.data.frame()|>rk.results()\\n");', results.header="Survey svystat results"),
     hierarchy=list("Survey"))
 
-  # =========================================================================================
-  # Component 2: svyby (MODIFIED SECTION)
-  # =========================================================================================
+  # Component 2: svyby
   survey_inputs2 <- generate_survey_input(2)
   analysis_vars_slot2 <- rk.XML.varslot(label="Analysis variables", source="svydesign_selector2", multi=TRUE, required=TRUE, id.name="analysis_vars2")
   attr(analysis_vars_slot2, "source_property") <- "variables"
   by_vars_slot <- rk.XML.varslot(label="Grouping variables (by)", source="svydesign_selector2", multi=TRUE, required=TRUE, id.name="by_vars")
   attr(by_vars_slot, "source_property") <- "variables"
 
-  # Define content for the "Options" tab
   by_options_tab_content <- rk.XML.col(
     rk.XML.frame(label="General", child=rk.XML.col(
       rk.XML.cbox(label="Define row names based on subsets (keep.names)", id.name="by_keep_names_cbox", value="1", chk=TRUE),
@@ -176,9 +178,9 @@ local({
     ))
   )
 
-  # NEW: Define content for the "Computation & Output" tab
   by_computation_tab_content <- rk.XML.col(
     generate_subset_frame(2),
+    rk.XML.cbox(label="Omit cases with NA in selected variables", id.name="by_omit_na_cbox", value="1", chk=TRUE),
     generate_lonely_psu_cbox(2),
     rk.XML.frame(label="Advanced Computation", child=rk.XML.col(
       rk.XML.cbox(label="Extract standard errors from svystat object (keep.var)", id.name="by_keep_var_cbox", value="1", chk=TRUE),
@@ -204,6 +206,21 @@ local({
       ))
     )))),
     js=list(require="survey", calculate=paste(js_helpers, '
+      var final_svy_obj = preprocessSurveyOptions("lonely_psu_cbox2", "subset_cbox2", "subset_input2", getValue("svydesign_object2"));
+      var analysis_vars_arr = getValue("analysis_vars2").split(/\\n/).filter(function(n){ return n!="" });
+      var by_vars_arr = getValue("by_vars").split(/\\n/).filter(function(n){ return n!="" });
+
+      if (getValue("by_omit_na_cbox") == "1") {
+          var all_vars_clean = analysis_vars_arr.concat(by_vars_arr).map(getColumnName);
+          if (all_vars_clean.length > 0) {
+              var na_conditions = all_vars_clean.map(function(v) { return "!is.na(" + v + ")"; }).join(" & ");
+              echo(final_svy_obj + " <- subset(" + final_svy_obj + ", " + na_conditions + ")\\n");
+          }
+      }
+
+      var analysis_formula = "~" + analysis_vars_arr.map(getColumnName).join(" + ");
+      var by_formula = "~" + by_vars_arr.map(getColumnName).join(" + ");
+
       var by_options = [];
       if (getValue("by_keep_var_cbox") != "1") { by_options.push("keep.var=FALSE"); }
       if (getValue("by_keep_names_cbox") != "1") { by_options.push("keep.names=FALSE"); }
@@ -228,20 +245,11 @@ local({
       if (getValue("by_level_spin") != "0.95") { by_options.push("level = " + getValue("by_level_spin")); }
       if (getValue("by_df_input")) { by_options.push("df = " + getValue("by_df_input")); }
 
-      var f=preprocessSurveyOptions("lonely_psu_cbox2","subset_cbox2","subset_input2",getValue("svydesign_object2"));
-      var a=getValue("analysis_vars2").split(/\\n/).filter(function(n){return n!=""});
-      var b="~"+a.map(getColumnName).join(" + ");
-      var c=getValue("by_vars").split(/\\n/).filter(function(n){return n!=""});
-      var d="~"+c.map(getColumnName).join(" + ");
       var final_opts = by_options.length > 0 ? ", " + by_options.join(", ") : "";
 
-      echo("svyby_result <- svyby(" + b + ", " + d + ", " + f + ", " + getValue("by_func") + final_opts + ")\\n");
+      echo("svyby_result <- svyby(" + analysis_formula + ", " + by_formula + ", " + final_svy_obj + ", " + getValue("by_func") + final_opts + ")\\n");
     '), printout='echo("rk.header(\\"Survey by saved as: "+getValue("save_by.objectname")+"\\",level=3)\\n");echo("svyby_result|>as.data.frame()|>rk.results(print.rownames=FALSE)\\n");', results.header="Survey by results"),
     hierarchy=list("Survey"))
-
-  # =========================================================================================
-  # Other Components (Unchanged)
-  # =========================================================================================
 
   # Component 3: svyquantile
   survey_inputs3 <- generate_survey_input(3)

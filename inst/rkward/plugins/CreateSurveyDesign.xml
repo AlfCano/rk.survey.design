@@ -35,7 +35,8 @@
 						</column>
 					</tab>
 					<tab label="Advanced Options" id="tab_AdvncdOp">
-						<column id="clm_cCTRUE1PPS">
+						<column id="clm_cAPSU1CTRU">
+							<checkbox id="main_lonely_psu_cbox" label="Adjust for lonely PSUs globally (survey.lonely.psu = 'adjust')" value="1" />
 							<checkbox id="check_strata_cbox" label="Check nesting of clusters in strata (check.strata=TRUE)" value="1" />
 							<input label="PPS method (e.g., 'brewer') or object" id="pps_input" />
 							<dropdown id="variance_pps" label="PPS variance estimator">

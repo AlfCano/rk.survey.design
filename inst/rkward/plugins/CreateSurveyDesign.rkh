@@ -33,6 +33,8 @@
 		<setting id="nest_cbox">
 		</setting>
 		<caption id="tab_AdvncdOp" />
+		<setting id="main_lonely_psu_cbox">
+		</setting>
 		<setting id="check_strata_cbox">
 		</setting>
 		<setting id="pps_input">

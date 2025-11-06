@@ -60,6 +60,8 @@
 		</setting>
 		<setting id="subset_input2">
 		</setting>
+		<setting id="by_omit_na_cbox">
+		</setting>
 		<setting id="lonely_psu_cbox2">
 		</setting>
 		<caption id="frm_AdvncdCm" />
