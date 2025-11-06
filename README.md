@@ -1,6 +1,6 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.7.9-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.8.0-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
@@ -8,7 +8,7 @@
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
 
 
-## What's New in Version 0.7.9
+## What's New in Version 0.8.0
 
 *   **Global Lonely PSU Handling:** A new option has been added to the main **Create Survey Design** plugin. You can now set `options(survey.lonely.psu = "adjust")` globally when creating your design object. This is the recommended conservative approach for handling strata with a single Primary Sampling Unit (PSU) and will apply to all subsequent analyses using that design.
 *   **Automatic NA Removal for `svyby`:** The **Grouped Survey Analysis (by)** plugin now includes a convenient checkbox to automatically omit cases where any of the selected analysis or grouping variables have missing values (`NA`). This pre-filters the data, ensuring the analysis runs smoothly without errors caused by missing data.
@@ -54,6 +54,9 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 
 *   **Subset Survey Object:**
     *   Filters a design based on a logical condition to create a new, smaller `svydesign` object, preserving variable metadata.
+    
+*   **Create Survey Object:**  
+    *   Creating a design based on a data.frame object, preserving variable metadata.
 
 ## Requirements
 

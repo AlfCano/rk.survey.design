@@ -66,6 +66,14 @@ function calculate(is_preview){
     if (getValue("dbtype_input")) { options.push("dbtype = \"" + getValue("dbtype_input") + "\""); }
     if (getValue("dbname_input")) { options.push("dbname = \"" + getValue("dbname_input") + "\""); }
     echo("survey.design <- svydesign(" + options.join(", ") + ")\n");
+
+    // Loop to preserve RKWard variable labels
+    echo("\n# Preserve RKWard variable labels\n");
+    echo("for (col_name in names(survey.design$variables)) {\n");
+    echo("  try({\n");
+    echo("    attr(survey.design$variables[[col_name]], \".rk.meta\") <- attr(" + dataframe + "[[col_name]], \".rk.meta\")\n");
+    echo("  }, silent = TRUE)\n");
+    echo("}\n");
   
 }
 

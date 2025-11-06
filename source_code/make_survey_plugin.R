@@ -1,5 +1,5 @@
 local({
-  # =========================================================================================
+  # = "======================================================================================="
   # Package Definition and Metadata
   # =========================================================================================
   require(rkwarddev)
@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.7.9",
+      version = "0.8.0",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -98,7 +98,6 @@ local({
         rk.XML.tabbook(tabs = list(
             "Basic Design" = rk.XML.col(dataframe_object_slot, id_varslot, strata_varslot, weight_varslot, probs_varslot, fpc_varslot, rk.XML.cbox(label="Nest clusters within strata (nest=TRUE)", id.name="nest_cbox", value="1")),
             "Advanced Options" = rk.XML.col(
-              # MODIFIED: Removed chk=TRUE
               rk.XML.cbox(label="Adjust for lonely PSUs globally (survey.lonely.psu = 'adjust')", id.name="main_lonely_psu_cbox", value="1"),
               rk.XML.cbox(label="Check nesting of clusters in strata (check.strata=TRUE)", id.name="check_strata_cbox", value="1"),
               rk.XML.input(label = "PPS method (e.g., 'brewer') or object", id.name = "pps_input"),
@@ -111,6 +110,7 @@ local({
     )
   )
 
+  # MODIFIED: Added logic to copy .rk.meta attributes
   js_calc_main <- paste(js_helpers, '
     if(getValue("main_lonely_psu_cbox") == "1"){
       echo("options(survey.lonely.psu = \\"adjust\\")\\n\\n");
@@ -132,6 +132,14 @@ local({
     if (getValue("dbtype_input")) { options.push("dbtype = \\"" + getValue("dbtype_input") + "\\""); }
     if (getValue("dbname_input")) { options.push("dbname = \\"" + getValue("dbname_input") + "\\""); }
     echo("survey.design <- svydesign(" + options.join(", ") + ")\\n");
+
+    // Loop to preserve RKWard variable labels
+    echo("\\n# Preserve RKWard variable labels\\n");
+    echo("for (col_name in names(survey.design$variables)) {\\n");
+    echo("  try({\\n");
+    echo("    attr(survey.design$variables[[col_name]], \\".rk.meta\\") <- attr(" + dataframe + "[[col_name]], \\".rk.meta\\")\\n");
+    echo("  }, silent = TRUE)\\n");
+    echo("}\\n");
   ')
 
   js_print_main <- 'echo("rk.header(\\"Survey design object saved as: " + getValue("save_survey.objectname") + "\\")\\n");'
