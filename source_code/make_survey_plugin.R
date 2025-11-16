@@ -1,5 +1,5 @@
 local({
-  # = "======================================================================================="
+  # =========================================================================================
   # Package Definition and Metadata
   # =========================================================================================
   require(rkwarddev)
@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.8.0",
+      version = "0.8.1",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -110,7 +110,6 @@ local({
     )
   )
 
-  # MODIFIED: Added logic to copy .rk.meta attributes
   js_calc_main <- paste(js_helpers, '
     if(getValue("main_lonely_psu_cbox") == "1"){
       echo("options(survey.lonely.psu = \\"adjust\\")\\n\\n");
@@ -133,7 +132,6 @@ local({
     if (getValue("dbname_input")) { options.push("dbname = \\"" + getValue("dbname_input") + "\\""); }
     echo("survey.design <- svydesign(" + options.join(", ") + ")\\n");
 
-    // Loop to preserve RKWard variable labels
     echo("\\n# Preserve RKWard variable labels\\n");
     echo("for (col_name in names(survey.design$variables)) {\\n");
     echo("  try({\\n");
@@ -319,12 +317,104 @@ local({
     js=list(require="survey", calculate=paste(js_helpers, 'var f=preprocessSurveyOptions("lonely_psu_cbox8","subset_cbox8","subset_input8",getValue("svydesign_object8"));var b="~"+getColumnName(getValue("var1_chisq"))+" + "+getColumnName(getValue("var2_chisq"));echo("svychisq_result<-svychisq("+b+", "+f+")\\n");'), printout='echo("rk.print(svychisq_result)\\n");echo("rk.print(summary(svychisq_result))\\n");echo("rk.header(\\"Expected:\\",level=3);rk.results(svychisq_result$expected)\\n");echo("rk.header(\\"Observed:\\",level=3);rk.results(svychisq_result$observed)\\n");echo("rk.header(\\"Residuals:\\",level=3);rk.results(svychisq_result$residuals)\\n");echo("rk.header(\\"Standardized Residuals:\\",level=3);rk.results(svychisq_result$stdres)\\n");', results.header="Survey Chi-squared Test"),
     hierarchy=list("Survey"))
 
+  # --- NEW COMPONENT 9: Parametric Test (svyttest) ---
+  survey_inputs9 <- generate_survey_input(9)
+  outcome_var_slot9 <- rk.XML.varslot(label="Outcome variable", source="svydesign_selector9", required=TRUE, id.name="outcome_var9")
+  attr(outcome_var_slot9, "source_property") <- "variables"
+  grouping_var_slot9 <- rk.XML.varslot(label="Grouping variable", source="svydesign_selector9", required=TRUE, id.name="grouping_var9")
+  attr(grouping_var_slot9, "source_property") <- "variables"
+
+  js_calc_ttest <- paste(js_helpers, '
+    var svy_obj = preprocessSurveyOptions("lonely_psu_cbox9", "subset_cbox9", "subset_input9", getValue("svydesign_object9"));
+    var outcome_var = getColumnName(getValue("outcome_var9"));
+    var grouping_var = getColumnName(getValue("grouping_var9"));
+    var formula = outcome_var + " ~ " + grouping_var;
+    echo("data.bound <- svyttest(" + formula + ", design = " + svy_obj + ")\\n");
+  ')
+  js_print_ttest <- '
+    if(getValue("save_ttest.active")){
+      echo("rk.header(\\"T-test result saved as: " + getValue("save_ttest.objectname") + "\\")\\n");
+    }
+    echo("rk.print(data.bound)\\n");
+  '
+
+  ttest_component <- rk.plugin.component("Survey  T-Test",
+    xml=list(dialog=rk.XML.dialog(label="Survey T-Test", child=rk.XML.row(
+      survey_inputs9$selector,
+      rk.XML.col(
+        survey_inputs9$slot,
+        outcome_var_slot9,
+        grouping_var_slot9
+      ),
+      rk.XML.col(
+        rk.XML.frame(
+          generate_subset_frame(9),
+          generate_lonely_psu_cbox(9),
+          rk.XML.saveobj(label="Save result as", initial="data.bound", chk=TRUE, id.name="save_ttest"),
+          label="Options"
+        )
+      )
+    ))),
+    js=list(require="survey", results.header="Parametric Survey Test (t-test)", calculate=js_calc_ttest, printout=js_print_ttest),
+    hierarchy=list("Survey"))
+
+  # --- NEW COMPONENT 10: Non-Parametric Tests (svyranktest) ---
+  survey_inputs10 <- generate_survey_input(10)
+  outcome_var_slot10 <- rk.XML.varslot(label="Outcome variable", source="svydesign_selector10", required=TRUE, id.name="outcome_var10")
+  attr(outcome_var_slot10, "source_property") <- "variables"
+  grouping_var_slot10 <- rk.XML.varslot(label="Grouping variable", source="svydesign_selector10", required=TRUE, id.name="grouping_var10")
+  attr(grouping_var_slot10, "source_property") <- "variables"
+
+  # CORRECTED JAVASCRIPT BLOCK
+  js_calc_ranktest <- paste(js_helpers, '
+    var svy_obj = preprocessSurveyOptions("lonely_psu_cbox10", "subset_cbox10", "subset_input10", getValue("svydesign_object10"));
+    var outcome_var = getColumnName(getValue("outcome_var10"));
+    var grouping_var = getColumnName(getValue("grouping_var10"));
+    var formula = outcome_var + " ~ " + grouping_var;
+    var test_type = getValue("ranktest_type");
+    var r_command = "data.bound <- svyranktest(" + formula + ", design = " + svy_obj + ", test=\\"" + test_type + "\\")";
+    echo(r_command + "\\n");
+  ')
+  js_print_ranktest <- '
+    if(getValue("save_ranktest.active")){
+      echo("rk.header(\\"Rank test result saved as: " + getValue("save_ranktest.objectname") + "\\")\\n");
+    }
+    echo("rk.print(data.bound)\\n");
+  '
+
+  ranktest_component <- rk.plugin.component("Non-Parametric Survey Tests",
+    xml=list(dialog=rk.XML.dialog(label="Survey Rank Tests", child=rk.XML.row(
+      survey_inputs10$selector,
+      rk.XML.col(
+        survey_inputs10$slot,
+        outcome_var_slot10,
+        grouping_var_slot10
+      ),
+      rk.XML.col(
+        rk.XML.frame(
+          rk.XML.dropdown(label="Test type", options=list(
+            "Wilcoxon-Mann-Whitney"=list(val="wilcoxon", chk=TRUE),
+            "Kruskal-Wallis"=list(val="KruskalWallis"),
+            "Median"=list(val="median")
+          ), id.name="ranktest_type"),
+          generate_subset_frame(10),
+          generate_lonely_psu_cbox(10),
+          rk.XML.saveobj(label="Save result as", initial="data.bound", chk=TRUE, id.name="save_ranktest"),
+          label="Options"
+        )
+      )
+    ))),
+    js=list(require="survey", results.header="Non-Parametric Survey Rank Test", calculate=js_calc_ranktest, printout=js_print_ranktest),
+    hierarchy=list("Survey"))
+
+
   # =========================================================================================
   # Final Plugin Skeleton Call
   # =========================================================================================
   all_components <- list(
     mean_total_component, by_component, quantile_component, ratio_component,
-    glm_component, subset_component, table_component, chisq_component
+    glm_component, subset_component, table_component, chisq_component,
+    ttest_component, ranktest_component
   )
 
   rk.plugin.skeleton(
@@ -344,7 +434,7 @@ local({
     show = FALSE
   )
 
-  cat("\nCleaned plugin package 'rk.survey.design' with 9 plugins generated.\n\nTo complete installation:\n\n")
+  cat("\nCleaned plugin package 'rk.survey.design' with 11 plugins generated.\n\nTo complete installation:\n\n")
   cat("  rk.updatePluginMessages(plugin.dir=\"rk.survey.design\")\n\n")
   cat("  devtools::install(\"rk.survey.design\")\n")
 })

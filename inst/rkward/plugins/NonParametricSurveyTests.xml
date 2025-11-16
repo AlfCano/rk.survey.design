@@ -1,0 +1,46 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="NonParametricSurveyTests.js" />
+	<help file="NonParametricSurveyTests.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Survey Rank Tests">
+		<row id="row_v10W10S101">
+			<varselector id="svydesign_selector10" label="Workspace objects" />
+			<column id="clm_v10S1010O1">
+				<varslot id="svydesign_object10" label="Survey design object" source="svydesign_selector10" classes="svydesign" required="true" />
+				<varslot id="outcome_var10" label="Outcome variable" source="svydesign_selector10" required="true" />
+				<varslot id="grouping_var10" label="Grouping variable" source="svydesign_selector10" required="true" />
+			</column>
+			<column id="clm_fOOTWMWKWK">
+				<frame label="Options" id="frm_Options">
+					<dropdown id="ranktest_type" label="Test type">
+						<option label="Wilcoxon-Mann-Whitney" value="wilcoxon" checked="true" />
+						<option label="Kruskal-Wallis" value="KruskalWallis" />
+						<option label="Median" value="median" />
+					</dropdown>
+					<frame label="Subset Option" id="frm_SbstOptn">
+						<checkbox id="subset_cbox10" label="Subset the survey design" value="1" />
+						<input label="Subset expression" id="subset_input10" />
+					</frame>
+					<checkbox id="lonely_psu_cbox10" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
+					<saveobject label="Save result as" checkable="true" checked="true" initial="data.bound" id="save_ranktest" />
+				</frame>
+			</column>
+		</row>
+	</dialog>
+</document>

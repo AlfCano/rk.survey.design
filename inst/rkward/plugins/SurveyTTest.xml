@@ -1,0 +1,41 @@
+<!DOCTYPE rkplugin >
+<document>
+	<!--
+		this code was generated using the rkwarddev package.
+	perhaps don't make changes here, but in the rkwarddev script instead!
+	-->
+	<code file="SurveyTTest.js" />
+	<help file="SurveyTTest.rkh" />
+	<!--
+		<dependencies>
+		</dependencies>
+	-->
+	<logic>
+		<!--
+			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
+		-->
+		<!--
+			<connect governor="!edit!.state" client="!edit!.enabled" />
+		-->
+	</logic>
+	<dialog label="Survey T-Test">
+		<row id="row_v9W9S99O99">
+			<varselector id="svydesign_selector9" label="Workspace objects" />
+			<column id="clm_v9S99O99G9">
+				<varslot id="svydesign_object9" label="Survey design object" source="svydesign_selector9" classes="svydesign" required="true" />
+				<varslot id="outcome_var9" label="Outcome variable" source="svydesign_selector9" required="true" />
+				<varslot id="grouping_var9" label="Grouping variable" source="svydesign_selector9" required="true" />
+			</column>
+			<column id="clm_fOOSOSO9S1">
+				<frame label="Options" id="frm_Options">
+					<frame label="Subset Option" id="frm_SbstOptn">
+						<checkbox id="subset_cbox9" label="Subset the survey design" value="1" />
+						<input label="Subset expression" id="subset_input9" />
+					</frame>
+					<checkbox id="lonely_psu_cbox9" label="Adjust for lonely PSUs (single-cluster strata)" value="1" />
+					<saveobject label="Save result as" checkable="true" checked="true" initial="data.bound" id="save_ttest" />
+				</frame>
+			</column>
+		</row>
+	</dialog>
+</document>

@@ -20,8 +20,8 @@
 		name="rk.survey.design"
 		shortinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
 		longinfo="A plugin package to create and analyze complex survey designs using the 'survey' package."
-		version="0.8.0"
-		releasedate="2025-11-06"
+		version="0.8.1"
+		releasedate="2025-11-15"
 		url="https://github.com/AlfCano/rk.survey.design"
 		license="GPL (&gt;= 3)"
 	>
@@ -96,6 +96,20 @@
 		>
 		</component>
 		<component
+			id="cmp_CreateSurveyDesgnSrvyTTst"
+			label="Survey  T-Test"
+			type="standard"
+			file="plugins/SurveyTTest.xml"
+		>
+		</component>
+		<component
+			id="cmp_CrtSrvyDsgnNnPrmtrcSrvyTs"
+			label="Non-Parametric Survey Tests"
+			type="standard"
+			file="plugins/NonParametricSurveyTests.xml"
+		>
+		</component>
+		<component
 			id="cmp_CreateSrvyDsgnCrtSrvyDsgn"
 			label="Create Survey Design"
 			type="standard"
@@ -166,6 +180,22 @@
 		>
 			<entry
 				component="cmp_CretSrvyDsgnSrvyChsqrdTst"
+			/>
+		</menu>
+		<menu
+			id="men_Survey"
+			label="Survey"
+		>
+			<entry
+				component="cmp_CreateSurveyDesgnSrvyTTst"
+			/>
+		</menu>
+		<menu
+			id="men_Survey"
+			label="Survey"
+		>
+			<entry
+				component="cmp_CrtSrvyDsgnNnPrmtrcSrvyTs"
 			/>
 		</menu>
 		<menu

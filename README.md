@@ -1,12 +1,23 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.8.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.8.1-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
 
+## What's New in Version 0.8.1
+
+This version expands the analytical capabilities of the package by introducing two new plugins for common statistical tests, adapted for complex survey designs.
+
+*   **New Plugin: Survey T-Test:**
+    *   A new plugin has been added to perform survey-weighted t-tests using `survey::svyttest()`.
+    *   This allows for comparing the means of an outcome variable between two groups defined by a grouping variable, while accounting for the survey design.
+
+*   **New Plugin: Non-Parametric Survey Tests:**
+    *   This versatile plugin uses `survey::svyranktest()` to perform several design-based non-parametric tests.
+    *   It supports the **Wilcoxon Rank Sum (Mann-Whitney U) test**, the **Kruskal-Wallis test** (for more than two groups), and the **Median test** through a simple dropdown menu.
 
 ## What's New in Version 0.8.0
 
@@ -15,7 +26,7 @@ This package provides a suite of RKWard plugins that create a graphical user int
 
 ## Features / Included Plugins
 
-This package installs a new top-level menu in RKWard: **Survey**, which contains the following nine plugins:
+This package installs a new top-level menu in RKWard: **Survey**, which contains the following eleven plugins:
 
 *   **Create Survey Design:**
     *   The cornerstone of the package. This plugin uses `survey::svydesign()` to create a `svydesign` object.
@@ -52,11 +63,14 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
     *   Performs a survey-weighted chi-squared test of independence for two variables using `survey::svychisq()`.
     *   Includes options to subset the design and adjust for lonely PSUs.
 
+*   **Survey T-Test:**
+    *   **[New in 0.8.1]** Performs a survey-weighted t-test using `svyttest()`.
+
+*   **Non-Parametric Survey Tests:**
+    *   **[New in 0.8.1]** Performs survey-weighted rank tests, including Wilcoxon, Kruskal-Wallis, and Median tests using `svyranktest()`.
+
 *   **Subset Survey Object:**
     *   Filters a design based on a logical condition to create a new, smaller `svydesign` object, preserving variable metadata.
-    
-*   **Create Survey Object:**  
-    *   Creating a design based on a data.frame object, preserving variable metadata.
 
 ## Requirements
 
@@ -74,6 +88,7 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 3.  Restart RKWard to ensure the new menu items appear correctly.
 
 If you are missing any of these packages, you can install them from the R console:
+
 ```R
 install.packages(c("survey", "remotes"))
 ```
@@ -117,4 +132,3 @@ The RKWard output window will display a formatted table showing the mean `api00`
 
 *   Alfonso Cano (alfonso.cano@correo.buap.mx)
 *   Assisted by Gemini, a large language model from Google.
-

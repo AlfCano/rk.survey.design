@@ -67,7 +67,6 @@ function calculate(is_preview){
     if (getValue("dbname_input")) { options.push("dbname = \"" + getValue("dbname_input") + "\""); }
     echo("survey.design <- svydesign(" + options.join(", ") + ")\n");
 
-    // Loop to preserve RKWard variable labels
     echo("\n# Preserve RKWard variable labels\n");
     echo("for (col_name in names(survey.design$variables)) {\n");
     echo("  try({\n");
