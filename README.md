@@ -1,11 +1,22 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.8.1-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.8.2-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
+
+## What's New in Version 0.8.2
+
+This version focuses on accessibility and internationalization. The entire plugin suite has been fully localized.
+
+*   **Multilingual Support:** The interface is now available in:
+    *   🇺🇸 English (Default)
+    *   🇪🇸 Spanish (`es`)
+    *   🇫🇷 French (`fr`)
+    *   🇩🇪 German (`de`)
+    *   🇧🇷 Portuguese (Brazil) (`pt_BR`)
 
 ## What's New in Version 0.8.1
 
@@ -18,11 +29,6 @@ This version expands the analytical capabilities of the package by introducing t
 *   **New Plugin: Non-Parametric Survey Tests:**
     *   This versatile plugin uses `survey::svyranktest()` to perform several design-based non-parametric tests.
     *   It supports the **Wilcoxon Rank Sum (Mann-Whitney U) test**, the **Kruskal-Wallis test** (for more than two groups), and the **Median test** through a simple dropdown menu.
-
-## What's New in Version 0.8.0
-
-*   **Global Lonely PSU Handling:** A new option has been added to the main **Create Survey Design** plugin. You can now set `options(survey.lonely.psu = "adjust")` globally when creating your design object. This is the recommended conservative approach for handling strata with a single Primary Sampling Unit (PSU) and will apply to all subsequent analyses using that design.
-*   **Automatic NA Removal for `svyby`:** The **Grouped Survey Analysis (by)** plugin now includes a convenient checkbox to automatically omit cases where any of the selected analysis or grouping variables have missing values (`NA`). This pre-filters the data, ensuring the analysis runs smoothly without errors caused by missing data.
 
 ## Features / Included Plugins
 
@@ -64,10 +70,10 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
     *   Includes options to subset the design and adjust for lonely PSUs.
 
 *   **Survey T-Test:**
-    *   **[New in 0.8.1]** Performs a survey-weighted t-test using `svyttest()`.
+    *   Performs a survey-weighted t-test using `svyttest()`.
 
 *   **Non-Parametric Survey Tests:**
-    *   **[New in 0.8.1]** Performs survey-weighted rank tests, including Wilcoxon, Kruskal-Wallis, and Median tests using `svyranktest()`.
+    *   Performs survey-weighted rank tests, including Wilcoxon, Kruskal-Wallis, and Median tests using `svyranktest()`.
 
 *   **Subset Survey Object:**
     *   Filters a design based on a logical condition to create a new, smaller `svydesign` object, preserving variable metadata.
@@ -83,15 +89,15 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 1.  Open RKWard.
 2.  Run the following command in the R console to install the plugin directly from GitHub:
     ```R
-    remotes::install_github("AlfCano/rk.survey.design")
+    # If you don't have devtools installed:
+    # install.packages("devtools")
+    
+    local({
+      require(devtools)
+      install_github("AlfCano/rk.survey.design", force = TRUE)
+    })
     ```
-3.  Restart RKWard to ensure the new menu items appear correctly.
-
-If you are missing any of these packages, you can install them from the R console:
-
-```R
-install.packages(c("survey", "remotes"))
-```
+3.  Restart RKWard to ensure the new menu items and translations appear correctly.
 
 ## Usage Workflow Example
 

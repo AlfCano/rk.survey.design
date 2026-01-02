@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: rk.survey.design 0.8.2\n"
+"Report-Msgid-Bugs-To: https://mail.kde.org/mailman/listinfo/kde-i18n-doc\n"
+"POT-Creation-Date: 2025-01-01 12:00+0000\n"
+"PO-Revision-Date: 2025-01-01 12:00+0000\n"
+"Last-Translator: Your Name <your.email@example.com>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+
+msgid "A plugin package to create and analyze complex survey designs using the 'survey' package."
+msgstr "Ein Plugin-Paket zum Erstellen und Analysieren komplexer Erhebungsdesigns mit dem 'survey'-Paket."
+
+msgid "Create Survey Design"
+msgstr "Erhebungsdesign erstellen"
+
+msgid "Survey"
+msgstr "Erhebungen"
+
+msgid "Select data object"
+msgstr "Datenobjekt auswählen"
+
+msgid "Survey data (data.frame)"
+msgstr "Erhebungsdaten (data.frame)"
+
+msgid "ID/Cluster variable (~1 for no cluster)"
+msgstr "ID/Cluster-Variable (~1 für kein Cluster)"
+
+msgid "Strata variable (optional)"
+msgstr "Schichtvariable (optional)"
+
+msgid "Weight variable (or use probs)"
+msgstr "Gewichtsvariable (oder probs verwenden)"
+
+msgid "Sampling probabilities (optional)"
+msgstr "Stichprobenwahrscheinlichkeiten (optional)"
+
+msgid "Finite Population Correction (optional)"
+msgstr "Endlichkeitskorrektur (optional)"
+
+msgid "Save survey design object as"
+msgstr "Erhebungsdesign-Objekt speichern als"
+
+msgid "Create Complex Survey Design"
+msgstr "Komplexes Erhebungsdesign erstellen"
+
+msgid "Basic Design"
+msgstr "Basisdesign"
+
+msgid "Nest clusters within strata (nest=TRUE)"
+msgstr "Cluster innerhalb von Schichten verschachteln (nest=TRUE)"
+
+msgid "Advanced Options"
+msgstr "Erweiterte Optionen"
+
+msgid "Adjust for lonely PSUs globally (survey.lonely.psu = 'adjust')"
+msgstr "Einsame PSUs global anpassen (survey.lonely.psu = 'adjust')"
+
+msgid "Check nesting of clusters in strata (check.strata=TRUE)"
+msgstr "Verschachtelung von Clustern in Schichten prüfen (check.strata=TRUE)"
+
+msgid "PPS method (e.g., 'brewer') or object"
+msgstr "PPS-Methode (z. B. 'brewer') oder Objekt"
+
+msgid "PPS variance estimator"
+msgstr "PPS-Varianzschätzer"
+
+msgid "Horvitz-Thompson (default)"
+msgstr "Horvitz-Thompson (Standard)"
+
+msgid "Yates-Grundy"
+msgstr "Yates-Grundy"
+
+msgid "Calibration formula (e.g., ~var1+var2)"
+msgstr "Kalibrierungsformel (z. B. ~var1+var2)"
+
+msgid "Database type (e.g., 'SQLite')"
+msgstr "Datenbanktyp (z. B. 'SQLite')"
+
+msgid "Database name (e.g., 'survey.db')"
+msgstr "Datenbankname (z. B. 'survey.db')"
+
+msgid "Database Options (optional)"
+msgstr "Datenbankoptionen (optional)"
+
+msgid "Workspace objects"
+msgstr "Arbeitsbereich-Objekte"
+
+msgid "Survey design object"
+msgstr "Erhebungsdesign-Objekt"
+
+msgid "Analysis variables"
+msgstr "Analysevariablen"
+
+msgid "Survey Mean or Total"
+msgstr "Erhebungsmittelwert oder Summe"
+
+msgid "Subset the survey design"
+msgstr "Teilmenge des Erhebungsdesigns"
+
+msgid "Subset expression"
+msgstr "Teilmengen-Ausdruck"
+
+msgid "Subset Option"
+msgstr "Teilmengen-Option"
+
+msgid "Function"
+msgstr "Funktion"
+
+msgid "Mean"
+msgstr "Mittelwert"
+
+msgid "Total"
+msgstr "Summe"
+
+msgid "Adjust for lonely PSUs (single-cluster strata)"
+msgstr "Anpassung für einsame PSUs (Ein-Cluster-Schichten)"
+
+msgid "Save result as"
+msgstr "Ergebnis speichern als"
+
+msgid "Survey Stat saved as: "
+msgstr "Erhebungsstatistik gespeichert als: "
+
+msgid "Survey svystat results"
+msgstr "Ergebnisse Survey svystat"
+
+msgid "Grouping variables (by)"
+msgstr "Gruppierungsvariablen (by)"
+
+msgid "General"
+msgstr "Allgemein"
+
+msgid "Define row names based on subsets (keep.names)"
+msgstr "Zeilennamen basierend auf Teilmengen definieren (keep.names)"
+
+msgid "Drop empty groups (drop.empty.groups)"
+msgstr "Leere Gruppen verwerfen (drop.empty.groups)"
+
+msgid "Omit groups defined by NA in 'by' variables (na.rm.by)"
+msgstr "Gruppen mit NA in 'by'-Variablen ausschließen (na.rm.by)"
+
+msgid "Treat groups with no non-missing obs as empty (na.rm.all)"
+msgstr "Gruppen ohne gültige Beobachtungen als leer behandeln (na.rm.all)"
+
+msgid "Convert string variables to factors (stringsAsFactors)"
+msgstr "String-Variablen in Faktoren umwandeln (stringsAsFactors)"
+
+msgid "Print a label for each subset as it is processed (verbose)"
+msgstr "Label für jede verarbeitete Teilmenge ausgeben (verbose)"
+
+msgid "Variability"
+msgstr "Variabilität"
+
+msgid "Report as (vartype)"
+msgstr "Berichten als (vartype)"
+
+msgid "Confidence Interval Options"
+msgstr "Konfidenzintervall-Optionen"
+
+msgid "Confidence level"
+msgstr "Konfidenzniveau"
+
+msgid "Degrees of freedom (e.g., degf(design))"
+msgstr "Freiheitsgrade (z. B. degf(design))"
+
+msgid "Parameters for CI (names or numbers)"
+msgstr "Parameter für KI (Namen oder Nummern)"
+
+msgid "Omit cases with NA in selected variables"
+msgstr "Fälle mit NA in ausgewählten Variablen ausschließen"
+
+msgid "Advanced Computation"
+msgstr "Erweiterte Berechnung"
+
+msgid "Extract standard errors from svystat object (keep.var)"
+msgstr "Standardfehler aus svystat-Objekt extrahieren (keep.var)"
+
+msgid "Compute covariances between estimates (covmat)"
+msgstr "Kovarianzen zwischen Schätzungen berechnen (covmat)"
+
+msgid "Return all replicates (return.replicates)"
+msgstr "Alle Replikate zurückgeben (return.replicates)"
+
+msgid "Return influence functions (influence)"
+msgstr "Einflussfunktionen zurückgeben (influence)"
+
+msgid "Use multicore processing (multicore)"
+msgstr "Multicore-Verarbeitung verwenden (multicore)"
+
+msgid "Grouped Survey Analysis (by)"
+msgstr "Gruppierte Erhebungsanalyse (by)"
+
+msgid "Data"
+msgstr "Daten"
+
+msgid "Function (FUN)"
+msgstr "Funktion (FUN)"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "Computation & Output"
+msgstr "Berechnung & Ausgabe"
+
+msgid "Survey by saved as: "
+msgstr "Survey by gespeichert als: "
+
+msgid "Survey by results"
+msgstr "Ergebnisse Survey by"
+
+msgid "Analysis variable"
+msgstr "Analysevariable"
+
+msgid "Survey Quantiles"
+msgstr "Erhebungs-Quantile"
+
+msgid "Quantiles (comma-separated)"
+msgstr "Quantile (kommagetrennt)"
+
+msgid "Quantiles for variable: "
+msgstr "Quantile für Variable: "
+
+msgid "Numerator variable"
+msgstr "Zählervariable"
+
+msgid "Denominator variable"
+msgstr "Nennervariable"
+
+msgid "Survey Ratio"
+msgstr "Erhebungsverhältnis"
+
+msgid "Result: "
+msgstr "Ergebnis: "
+
+msgid "Response variable"
+msgstr "Antwortvariable"
+
+msgid "Predictor variables"
+msgstr "Prädiktorvariablen"
+
+msgid "Survey GLM"
+msgstr "Erhebungs-GLM"
+
+msgid "Use quasibinomial family"
+msgstr "Quasibinomial-Familie verwenden"
+
+msgid "Survey GLM Results"
+msgstr "Ergebnisse Erhebungs-GLM"
+
+msgid "Subset Survey Object"
+msgstr "Teilmenge des Erhebungs-Objekts"
+
+msgid "Save subsetted object as"
+msgstr "Teilmengen-Objekt speichern als"
+
+msgid "Survey subset object saved as: "
+msgstr "Erhebungs-Teilmengen-Objekt gespeichert als: "
+
+msgid "Row variable"
+msgstr "Zeilenvariable"
+
+msgid "Column variable (optional)"
+msgstr "Spaltenvariable (optional)"
+
+msgid "Survey Table"
+msgstr "Erhebungstabelle"
+
+msgid "Save table as"
+msgstr "Tabelle speichern als"
+
+msgid "Variable 1"
+msgstr "Variable 1"
+
+msgid "Variable 2"
+msgstr "Variable 2"
+
+msgid "Survey Chi-squared Test"
+msgstr "Erhebungs-Chi-Quadrat-Test"
+
+msgid "Expected:"
+msgstr "Erwartet:"
+
+msgid "Observed:"
+msgstr "Beobachtet:"
+
+msgid "Residuals:"
+msgstr "Residuen:"
+
+msgid "Standardized Residuals:"
+msgstr "Standardisierte Residuen:"
+
+msgid "Outcome variable"
+msgstr "Ergebnisvariable"
+
+msgid "Grouping variable"
+msgstr "Gruppierungsvariable"
+
+msgid "Survey T-Test"
+msgstr "Erhebungs-T-Test"
+
+msgid "T-test result saved as: "
+msgstr "T-Test-Ergebnis gespeichert als: "
+
+msgid "Parametric Survey Test (t-test)"
+msgstr "Parametrischer Erhebungstest (T-Test)"
+
+msgid "Non-Parametric Survey Tests"
+msgstr "Nicht-parametrische Erhebungstests"
+
+msgid "Survey Rank Tests"
+msgstr "Erhebungs-Rangtests"
+
+msgid "Test type"
+msgstr "Testtyp"
+
+msgid "Wilcoxon-Mann-Whitney"
+msgstr "Wilcoxon-Mann-Whitney"
+
+msgid "Kruskal-Wallis"
+msgstr "Kruskal-Wallis"
+
+msgid "Median"
+msgstr "Median"
+
+msgid "Rank test result saved as: "
+msgstr "Rangtest-Ergebnis gespeichert als: "
+
+msgid "Non-Parametric Survey Rank Test"
+msgstr "Nicht-parametrischer Erhebungs-Rangtest"
+
+msgid "Creates a survey design object using svydesign() from the 'survey' package."
+msgstr "Erstellt ein Erhebungsdesign-Objekt unter Verwendung von svydesign() aus dem 'survey'-Paket."
+
+msgid "Select the data.frame, specify the design variables, and assign a name for the resulting survey design object."
+msgstr "Wählen Sie den Data Frame, geben Sie die Designvariablen an und weisen Sie dem resultierenden Erhebungsdesign-Objekt einen Namen zu."

@@ -15,7 +15,7 @@ local({
     ),
     about = list(
       desc = "A plugin package to create and analyze complex survey designs using the 'survey' package.",
-      version = "0.8.1",
+      version = "0.8.2",
       url = "https://github.com/AlfCano/rk.survey.design",
       license = "GPL (>= 3)"
     )
@@ -426,8 +426,12 @@ local({
       title = rk.rkh.title(text = "Create Survey Design"),
       summary = rk.rkh.summary(text = "Creates a survey design object using svydesign() from the 'survey' package."),
       usage = rk.rkh.usage(text = "Select the data.frame, specify the design variables, and assign a name for the resulting survey design object."))),
-    components = all_components,
-    pluginmap = list(name = "Create Survey Design", hierarchy = list("Survey")),
+components = all_components,
+    pluginmap = list(
+        name = "Create Survey Design",
+        hierarchy = list("Survey"),
+        po_id = "rk.survey.design"  # Explicitly set the ID
+    ),
     create = c("pmap", "xml", "js", "desc", "rkh"),
     load = TRUE,
     overwrite = TRUE,
