@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object10.available", "update_root10()");
+	      function update_root10() {
+	         var obj = gui.getValue("svydesign_object10.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector10.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector10.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Survey Rank Tests">
 		<row id="row_v10W10S101">

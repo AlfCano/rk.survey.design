@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object3.available", "update_root3()");
+	      function update_root3() {
+	         var obj = gui.getValue("svydesign_object3.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector3.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector3.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Survey Quantiles">
 		<row id="row_v3W3S3Q025">

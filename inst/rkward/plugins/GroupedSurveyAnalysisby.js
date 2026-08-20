@@ -49,7 +49,6 @@ function calculate(is_preview){
       var final_svy_obj = preprocessSurveyOptions("lonely_psu_cbox2", "subset_cbox2", "subset_input2", getValue("svydesign_object2"));
       var analysis_vars_arr = getValue("analysis_vars2").split(/\n/).filter(function(n){ return n!="" });
       var by_vars_arr = getValue("by_vars").split(/\n/).filter(function(n){ return n!="" });
-
       if (getValue("by_omit_na_cbox") == "1") {
           var all_vars_clean = analysis_vars_arr.concat(by_vars_arr).map(getColumnName);
           if (all_vars_clean.length > 0) {
@@ -57,10 +56,8 @@ function calculate(is_preview){
               echo(final_svy_obj + " <- subset(" + final_svy_obj + ", " + na_conditions + ")\n");
           }
       }
-
       var analysis_formula = "~" + analysis_vars_arr.map(getColumnName).join(" + ");
       var by_formula = "~" + by_vars_arr.map(getColumnName).join(" + ");
-
       var by_options = [];
       if (getValue("by_keep_var_cbox") != "1") { by_options.push("keep.var=FALSE"); }
       if (getValue("by_keep_names_cbox") != "1") { by_options.push("keep.names=FALSE"); }
@@ -73,20 +70,16 @@ function calculate(is_preview){
       if (getValue("by_influence_cbox") == "1") { by_options.push("influence=TRUE"); }
       if (getValue("by_multicore_cbox") == "1") { by_options.push("multicore=TRUE"); }
       if (getValue("by_strings_cbox") == "1") { by_options.push("stringsAsFactors=TRUE"); }
-
       var vartypes = [];
       if (getValue("by_vartype_se_cbox") == "1") { vartypes.push("\"se\""); }
       if (getValue("by_vartype_ci_cbox") == "1") { vartypes.push("\"ci\""); }
       if (getValue("by_vartype_var_cbox") == "1") { vartypes.push("\"variance\""); }
       if (getValue("by_vartype_cv_cbox") == "1") { vartypes.push("\"cv\""); }
       if (vartypes.length > 0 && vartypes.length < 4) { by_options.push("vartype = c(" + vartypes.join(", ") + ")"); }
-
       if (getValue("by_parm_input")) { by_options.push("parm = " + getValue("by_parm_input")); }
       if (getValue("by_level_spin") != "0.95") { by_options.push("level = " + getValue("by_level_spin")); }
       if (getValue("by_df_input")) { by_options.push("df = " + getValue("by_df_input")); }
-
       var final_opts = by_options.length > 0 ? ", " + by_options.join(", ") : "";
-
       echo("svyby_result <- svyby(" + analysis_formula + ", " + by_formula + ", " + final_svy_obj + ", " + getValue("by_func") + final_opts + ")\n");
     
 }

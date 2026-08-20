@@ -11,12 +11,7 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<connect governor="dataframe_object.available.state" client="dataframe_selector.root.enabled" />
 	</logic>
 	<dialog label="Create Complex Survey Design">
 		<row id="row_vSBDBDSIDC">

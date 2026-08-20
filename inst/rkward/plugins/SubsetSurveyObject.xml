@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object6.available", "update_root6()");
+	      function update_root6() {
+	         var obj = gui.getValue("svydesign_object6.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector6.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector6.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Subset Survey Object">
 		<row id="row_v6W6S6S6S6">

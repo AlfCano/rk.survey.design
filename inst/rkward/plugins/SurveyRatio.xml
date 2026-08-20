@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object4.available", "update_root4()");
+	      function update_root4() {
+	         var obj = gui.getValue("svydesign_object4.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector4.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector4.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Survey Ratio">
 		<row id="row_v4W4S4N4D4">

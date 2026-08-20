@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object1.available", "update_root1()");
+	      function update_root1() {
+	         var obj = gui.getValue("svydesign_object1.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector1.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector1.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Survey Mean or Total">
 		<row id="row_v1W1S11A1S">

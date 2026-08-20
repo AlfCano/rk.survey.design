@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object2.available", "update_root2()");
+	      function update_root2() {
+	         var obj = gui.getValue("svydesign_object2.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector2.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector2.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Grouped Survey Analysis (by)">
 		<row id="row_v2WDD2S22A">

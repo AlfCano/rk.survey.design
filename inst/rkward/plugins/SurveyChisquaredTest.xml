@@ -11,12 +11,17 @@
 		</dependencies>
 	-->
 	<logic>
-		<!--
-			<convert id="!edit!" sources="!edit!" mode="equals" standard="!edit!" />
-		-->
-		<!--
-			<connect governor="!edit!.state" client="!edit!.enabled" />
-		-->
+		<script>
+			gui.addChangeCommand("svydesign_object8.available", "update_root8()");
+	      function update_root8() {
+	         var obj = gui.getValue("svydesign_object8.available");
+	         if (obj !== "") {
+	            gui.setValue("svydesign_selector8.root", obj + "$variables");
+	         } else {
+	            gui.setValue("svydesign_selector8.root", "");
+	         }
+	      }
+		</script>
 	</logic>
 	<dialog label="Survey Chi-squared Test">
 		<row id="row_v8W8S81V18">

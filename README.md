@@ -1,11 +1,18 @@
 # rk.survey.design: Survey Analysis Tools for RKWard
 
-![Version](https://img.shields.io/badge/Version-0.8.2-blue.svg)
+![Version](https://img.shields.io/badge/Version-0.8.3-blue.svg)
 ![License](https://img.shields.io/badge/License-GPL--3-green.svg)
 ![R Version](https://img.shields.io/badge/R-%3E%3D%203.0.0-lightgrey.svg)
 [![R Linter](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml/badge.svg)](https://github.com/AlfCano/rk.survey.design/actions/workflows/lintr.yml)
 
 This package provides a suite of RKWard plugins that create a graphical user interface for the powerful `survey` R package. It is designed to simplify the workflow for complex survey analysis by providing dialogs for creating survey design objects and performing a wide range of common statistical analyses.
+
+## What's New in Version 0.8.3
+
+**🎯 Smart Variable Selector (Auto-Focus UI)**
+
+* **Context-Aware Workspace:** The entire plugin suite now features advanced dynamic GUI logic. The moment you drag and drop a `data.frame` or a complex `survey.design` object into the main input slot, the left-hand variable selector instantly hides the rest of your global environment and focuses **exclusively on the columns inside your dataset or survey**.
+* **Zero-Click Navigation:** For all analytical components (Means, GLMs, T-Tests, etc.), the plugin automatically targets the internal `$variables` data frame of the `survey.design` object. Researchers no longer need to manually expand complex lists or scroll through hundreds of unrelated workspace objects, drastically speeding up the analytical workflow.
 
 ## What's New in Version 0.8.2
 
