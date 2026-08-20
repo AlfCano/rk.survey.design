@@ -96,11 +96,11 @@ This package installs a new top-level menu in RKWard: **Survey**, which contains
 1.  Open RKWard.
 2.  Run the following command in the R console to install the plugin directly from GitHub:
     ```R
-    # If you don't have devtools installed:
-    # install.packages("devtools")
+    # If you don't have remotes installed:
+    # install.packages("remotes")
     
     local({
-      require(devtools)
+      require(remotes)
       install_github("AlfCano/rk.survey.design", force = TRUE)
     })
     ```
